@@ -18,7 +18,7 @@ const ThemeBtn = () => {
     <button
       onClick={() => setTheme(currentTheme === 'dark' ? 'light' : 'dark')}
       aria-label="Toggle dark mode"
-      className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80"
+      className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-70 transition-all duration-300"
     >
       {currentTheme === 'dark' ? (
         <svg
