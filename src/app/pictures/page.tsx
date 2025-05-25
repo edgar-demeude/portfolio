@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import useLenisScroll from '../hooks/useLenisScroll';
-import Header from '../components/header';
 import PhotoGrid from '../components/photoGrid';
 
 export default function Home() {
@@ -29,7 +28,6 @@ export default function Home() {
 
     return (
         <div className="min-h-screen transition-colors duration-300">
-            <Header collection={collection} onSelect={setCollection} onTitleClick={scrollToTop} />
             <main>
                 <PhotoGrid photos={photos} />
             </main>

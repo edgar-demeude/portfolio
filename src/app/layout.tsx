@@ -24,9 +24,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${baloo.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <ClientLayout>
-            {children}
-          </ClientLayout>
+            <ClientLayout>
+              {children}
+            </ClientLayout>
         </ThemeProvider>
       </body>
     </html>

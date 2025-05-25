@@ -1,12 +1,9 @@
 @import "tailwindcss";
 
+/* ---------------------------- VARIABLES CSS ---------------------------- */
 :root {
   --background: #ffffff;
   --foreground: #000000;
-}
-
-html {
-  scrollbar-color: #fafafa;
 }
 
 html.dark {
@@ -14,6 +11,16 @@ html.dark {
   --foreground: #fafafa;
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
+/* -------------------------- STYLES GLOBAUX HTML ------------------------- */
+html {
+  scrollbar-color: #fafafa;
+}
+
+/* --------------------------- CORPS DE LA PAGE --------------------------- */
 body {
   background: var(--background);
   color: var(--foreground);
@@ -21,6 +28,7 @@ body {
   transition: background-color 0.7s ease, color 0.7s ease;
 }
 
+/* ------------------------- CURSEUR POUR ÉLÉMENTS ------------------------- */
 @layer base {
   button,
   a,
@@ -34,6 +42,7 @@ body {
   }
 }
 
+/* --------------------------- SCROLLBAR INVISIBLE -------------------------- */
 ::-webkit-scrollbar {
   width: 0px;
   height: 0px;
@@ -47,22 +56,28 @@ body {
   background: transparent;
 }
 
-
-html.dark #main-header {
-  background:
-    linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)),
-    rgba(0, 0, 0, 0.3);
-  color: #fafafa;
-
-  backdrop-filter: blur(10px);
-}
-
-html #main-header {
+/* ------------------------------- NAVBAR ---------------------------------- */
+/* Mode clair */
+html #navbar {
   background: white;
   color: black;
   backdrop-filter: blur(10px);
+  box-shadow: none;
 }
 
+/* Mode sombre */
+html.dark #navbar {
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
+    rgba(0, 0, 0, 0.3);
+  color: #fafafa;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* --------------------------- BOUTON SCROLL TOP ---------------------------- */
 .scroll-top-button {
   transition-property: width, background-color, transform;
   transition-duration: 200ms;
