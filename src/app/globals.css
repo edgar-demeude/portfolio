@@ -62,3 +62,9 @@ html #main-header {
   color: black;
   backdrop-filter: blur(10px);
 }
+
+.scroll-top-button {
+  transition-property: width, background-color, transform;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}

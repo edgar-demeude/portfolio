@@ -42,7 +42,7 @@ export default function Header({ collection, onSelect, onTitleClick }: HeaderPro
             transition-bg-color duration-700 ease-out
             shadow-lg
             bg-white bg-opacity-30 dark:bg-black dark:bg-opacity-80
-            ${isScrolled ? 'pt-2 pb-1' : 'pt-10 pb-10'}
+            ${isScrolled ? 'pt-2 pb-1' : 'pt-10 pb-9'}
         `}
         style={{ backdropFilter: 'blur(10px)' }}
     >

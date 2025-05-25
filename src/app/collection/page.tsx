@@ -29,32 +29,29 @@ export default function Home() {
 
     return (
         <div className="min-h-screen transition-colors duration-300">
-        <Header collection={collection} onSelect={setCollection} onTitleClick={scrollToTop} />
-        <main>
-            <PhotoGrid photos={photos} />
-        </main>
-        {showScrollTop && (
+            <Header collection={collection} onSelect={setCollection} onTitleClick={scrollToTop} />
+            <main>
+                <PhotoGrid photos={photos} />
+            </main>
             <button
                 onClick={scrollToTop}
-                className="
-                fixed bottom-12 left-1/2 -translate-x-1/2
-                w-12 h-12
-                flex items-center justify-center
-                rounded-full
-                bg-black/70
-                text-white
-                backdrop-blur
-                shadow-lg
-                transition-[width,background-color,transform] duration-300
-                hover:bg-black
-                hover:w-20
-                hover:scale-105
-                "
                 aria-label="Scroll to top"
+                className={`
+                    fixed bottom-12 left-1/2 -translate-x-1/2
+                    w-12 h-12
+                    flex items-center justify-center
+                    rounded-full
+                    bg-black/70
+                    text-white
+                    backdrop-blur
+                    shadow-lg
+                    transition-all duration-500 ease-in-out
+                    ${showScrollTop ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+                    hover:bg-black hover:w-20 hover:scale-105
+                `}
             >
                 ↑
             </button>
-        )}
         </div>
     );
 }
