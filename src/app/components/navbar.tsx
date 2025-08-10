@@ -1,17 +1,23 @@
 'use client';
+
 import { useState, useEffect, useRef } from 'react';
 import ThemeBtn from './themeBtn';
 import HoverFillText from './hoverFillText';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { formatCollectionName } from '../utils/formatCollectionName';
 
 const SCROLL_THRESHOLD = 50;
 
-type NavbarProps = {
-  collection?: string;
-};
+function getCurrentCollection(pathname: string): string | undefined {
+  const parts = pathname.split('/');
+  if (parts[1] === 'collections' && parts[2]) {
+    return decodeURIComponent(parts[2]);
+  }
+  return undefined;
+}
 
-export default function Navbar({}: NavbarProps) {
+export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const ticking = useRef(false);
   const pathname = usePathname();
@@ -31,6 +37,8 @@ export default function Navbar({}: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const currentCollection = getCurrentCollection(pathname);
+
   return (
     <header
       id="navbar"
@@ -47,23 +55,31 @@ export default function Navbar({}: NavbarProps) {
           Edgar Demeude
         </Link>
       </div>
-      <div className="flex-1 text-center">X</div>
+
+      <div className="flex-1 text-center">
+        {currentCollection && (
+          <span className="text-xl font-medium">
+            {formatCollectionName(currentCollection)}
+          </span>
+        )}
+      </div>
+
       <div className="flex-1 flex justify-end items-center space-x-4">
         <nav className="space-x-6">
-          {pathname === '/' ? (
-          <span className="font-medium capitalize">Collections</span>
-        ) : (
-          <Link href="/">
-            <HoverFillText>Collections</HoverFillText>
-          </Link>
-        )}
-        {pathname === '/about' ? (
-          <span className="font-medium capitalize">About</span>
-        ) : (
-          <Link href="/about">
-            <HoverFillText>About</HoverFillText>
-          </Link>
-        )}
+          {pathname === '/collections' ? (
+            <span className="font-medium capitalize">Collections</span>
+          ) : (
+            <Link href="/collections">
+              <HoverFillText>Collections</HoverFillText>
+            </Link>
+          )}
+          {pathname === '/about' ? (
+            <span className="font-medium capitalize">About</span>
+          ) : (
+            <Link href="/about">
+              <HoverFillText>About</HoverFillText>
+            </Link>
+          )}
         </nav>
         <ThemeBtn />
       </div>

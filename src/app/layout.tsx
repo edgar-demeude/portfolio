@@ -3,6 +3,7 @@ import { Baloo_Tamma_2 } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes"
 import ClientLayout from "./components/clientLayout";
+import ScrollToTop from "./components/scrollToTop";
 
 const baloo = Baloo_Tamma_2({
   variable: "--font-Baloo_Tamma_2",
@@ -24,8 +25,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${baloo.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark">
+              <ScrollToTop />
+
             <ClientLayout>
-              {children}
+                {children}
             </ClientLayout>
         </ThemeProvider>
       </body>

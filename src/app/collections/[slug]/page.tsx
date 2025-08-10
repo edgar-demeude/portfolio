@@ -1,27 +1,27 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import useLenisScroll from '../hooks/useLenisScroll';
-import PhotoGrid from '../components/photoGrid';
+import { useParams } from 'next/navigation';
+import PhotoGrid from '@/app/components/photoGrid';
+import useLenisScroll from '@/app/hooks/useLenisScroll';
 
-export default function Home() {
+export default function CollectionPage() {
+    const { slug } = useParams();
     const [photos, setPhotos] = useState<string[]>([]);
-    const [collection, setCollection] = useState('all');
     const { scrollToTop } = useLenisScroll();
     const [showScrollTop, setShowScrollTop] = useState(false);
 
     useEffect(() => {
-        fetch(`/api/photos?collection=${collection}`)
-        .then((res) => res.json())
-        .then(setPhotos);
-    }, [collection]);
+        if (!slug) return;
+        fetch(`/api/photos?collection=${slug}`)
+            .then((res) => res.json())
+            .then(setPhotos);
+    }, [slug]);
 
     useEffect(() => {
         const handleScroll = () => {
-            const scrolled = window.scrollY;
-            setShowScrollTop(scrolled > 300);
+            setShowScrollTop(window.scrollY > 300);
         };
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);

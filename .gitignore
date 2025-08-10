@@ -42,3 +42,6 @@ next-env.d.ts
 
 # photos 
 /public/photos/
+
+# vscode
+.vscode

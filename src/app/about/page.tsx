@@ -22,7 +22,7 @@ export default function AboutPage() {
     window.scrollTo(0, 0);
     document.body.classList.add('no-scroll');
 
-    // Nettoyage au démontage : réactive le scroll
+    // Reenable scrolling when the component unmounts
     return () => {
       document.body.classList.remove('no-scroll');
     };
@@ -37,7 +37,7 @@ export default function AboutPage() {
         animate="visible"
       >
         <motion.h1 className="text-4xl font-bold" variants={itemVariants}>
-          À propos
+          About my work
         </motion.h1>
 
         <motion.p className="text-lg leading-relaxed" variants={itemVariants}>

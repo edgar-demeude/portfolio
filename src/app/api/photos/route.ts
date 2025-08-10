@@ -13,12 +13,12 @@ export async function GET(req: NextRequest) {
 
   try {
     if (collection === 'all') {
-      // Lire tous les dossiers dans photos (toutes collections)
+      // Read all files in photos (all collections)
       const collections = fs.readdirSync(photosDir).filter(f =>
         fs.statSync(path.join(photosDir, f)).isDirectory()
       );
 
-      // Rassembler toutes les URLs dans un tableau
+      // Gather all URLs in a table
       let allUrls: string[] = [];
       collections.forEach(col => {
         const folderPath = path.join(photosDir, col);
