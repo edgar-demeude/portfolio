@@ -39,6 +39,13 @@ export default function Navbar() {
 
   const currentCollection = getCurrentCollection(pathname);
 
+  // active si on est sur /collections OU /collections/<slug>
+  const isCollectionsActive =
+    pathname === '/collections' || pathname.startsWith('/collections/');
+
+  // active si on est sur /about (ou sous-routes si tu en as)
+  const isAboutActive = pathname === '/about' || pathname.startsWith('/about/');
+
   return (
     <header
       id="navbar"
@@ -58,7 +65,8 @@ export default function Navbar() {
 
       <div className="flex-1 text-center">
         {currentCollection && (
-          <span className="text-xl font-medium">
+          // titre central : même taille que la navbar
+          <span className="text-2xl font-medium">
             {formatCollectionName(currentCollection)}
           </span>
         )}
@@ -66,18 +74,24 @@ export default function Navbar() {
 
       <div className="flex-1 flex justify-end items-center space-x-4">
         <nav className="space-x-6">
-          {pathname === '/collections' ? (
-            <span className="font-medium capitalize">Collections</span>
+          {isCollectionsActive ? (
+            // version active : HoverFillText en mode actif (texte plein)
+            <HoverFillText active className="font-medium">
+              Collections
+            </HoverFillText>
           ) : (
             <Link href="/collections">
-              <HoverFillText>Collections</HoverFillText>
+              <HoverFillText className="font-medium">Collections</HoverFillText>
             </Link>
           )}
-          {pathname === '/about' ? (
-            <span className="font-medium capitalize">About</span>
+
+          {isAboutActive ? (
+            <HoverFillText active className="font-medium">
+              About
+            </HoverFillText>
           ) : (
             <Link href="/about">
-              <HoverFillText>About</HoverFillText>
+              <HoverFillText className="font-medium">About</HoverFillText>
             </Link>
           )}
         </nav>

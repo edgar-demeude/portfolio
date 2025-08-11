@@ -1,3 +1,4 @@
+// hoverFillText.tsx
 import { useState, useEffect, useRef, ReactNode } from 'react';
 import { useTheme } from 'next-themes';
 
@@ -23,34 +24,25 @@ export default function HoverFillText({ children, className, active = false }: H
 
   function startHoverAnimation() {
     if (active) return;
-
     const el = ref.current;
     if (!el) return;
-
     el.style.transition = 'none';
     el.style.backgroundPositionX = '100%';
-
     void el.offsetHeight; // trigger reflow
-
     el.style.transition = 'background-position 0.4s ease-in-out';
     el.style.backgroundPositionX = '0%';
-
     setBackgroundPos('0%');
   }
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    // Nettoyer l'ancien timeout
     if (timeoutId.current !== null) {
       clearTimeout(timeoutId.current);
       timeoutId.current = null;
     }
-
     if (active) {
-      setHovered(true);
-      setBackgroundPos('0%');
+      // si actif → pas de dégradé, juste couleur pleine
       el.style.transition = 'none';
       el.style.backgroundPositionX = '0%';
     } else {
@@ -62,8 +54,7 @@ export default function HoverFillText({ children, className, active = false }: H
   }, [active]);
 
   useEffect(() => {
-    if (!mounted) return; // PAS d'animation avant le montage
-
+    if (!mounted) return;
     const el = ref.current;
     if (!el) return;
 
@@ -75,16 +66,9 @@ export default function HoverFillText({ children, className, active = false }: H
     if (hovered) {
       startHoverAnimation();
     } else {
-      if (active) {
-        el.style.transition = 'none';
-        el.style.backgroundPositionX = '0%';
-        setBackgroundPos('0%');
-        return;
-      }
-
+      if (active) return; // pas d'effet quand actif
       el.style.transition = 'background-position 0.6s ease-in-out';
       el.style.backgroundPositionX = '-100%';
-
       timeoutId.current = window.setTimeout(() => {
         if (!el) return;
         el.style.transition = 'none';
@@ -122,18 +106,26 @@ export default function HoverFillText({ children, className, active = false }: H
         }
       }}
       className={className}
-      style={{
-        fontWeight: 500,
-        backgroundImage: currentTheme === 'dark' ? backgroundImageDark : backgroundImageLight,
-        backgroundSize: '300% 100%',
-        backgroundPositionX: backgroundPos,
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        cursor: 'pointer',
-        display: 'inline-block',
-        // la transition CSS n'existe que si monté (évite flash)
-        transition: mounted && !active ? 'background-position 0.4s ease-in-out' : 'none',
-      }}
+      style={
+        active
+          ? {
+              fontWeight: 500,
+              color: currentTheme === 'dark' ? '#fff' : '#000', // texte plein
+              cursor: 'default',
+              display: 'inline-block',
+            }
+          : {
+              fontWeight: 500,
+              backgroundImage: currentTheme === 'dark' ? backgroundImageDark : backgroundImageLight,
+              backgroundSize: '300% 100%',
+              backgroundPositionX: backgroundPos,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              cursor: 'pointer',
+              display: 'inline-block',
+              transition: mounted ? 'background-position 0.4s ease-in-out' : 'none',
+            }
+      }
     >
       {children}
     </span>
