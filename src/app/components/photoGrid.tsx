@@ -5,13 +5,18 @@ import React, { useState, useEffect } from 'react';
 
 type PhotoGridProps = {
   photos: string[];
+  onPhotoClick?: (index: number) => void;
 };
 
-export default function PhotoGrid({ photos }: PhotoGridProps) {
+export default function PhotoGrid({ photos, onPhotoClick }: PhotoGridProps) {
   return (
     <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4 px-4 pb-4">
       {photos.map((src, idx) => (
-        <div key={idx} className="overflow-hidden">
+        <div 
+          key={idx} 
+          className="overflow-hidden cursor-pointer"
+          onClick={() => onPhotoClick && onPhotoClick(idx)}
+        >
           <FadeInImage
             src={src}
             alt={`Photo ${idx}`}

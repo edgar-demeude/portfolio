@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import useLenisScroll from '@/app/hooks/useLenisScroll';
 import PhotoGrid from '../components/photoGrid';
 import { formatCollectionName } from '../utils/formatCollectionName';
+import Lightbox from '../components/lightbox';
 
 type Collection = {
   folder: string;
@@ -18,6 +19,7 @@ export default function GalleryPage() {
 
   const { scrollToTop } = useLenisScroll();
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (collectionName) {
@@ -48,25 +50,35 @@ export default function GalleryPage() {
     <main className="min-h-screen px-6 pb-12 md:px-12 lg:px-24">
       <div className="flex-1 text-center mb-8">
         {collection.folder && (
-            <span className="text-2xl font-medium capitalize">
+          <span className="text-2xl font-medium capitalize">
             {formatCollectionName(collection.folder)}
-            </span>
+          </span>
         )}
-        </div>
-      <PhotoGrid photos={collection.images} />
+      </div>
+
+      <PhotoGrid 
+        photos={collection.images} 
+        onPhotoClick={setSelectedIndex} 
+      />
+
+      {/* Lightbox */}
+      {selectedIndex !== null && (
+        <Lightbox 
+          photos={collection.images}
+          index={selectedIndex}
+          onClose={() => setSelectedIndex(null)}
+          onPrev={() => setSelectedIndex(i => (i! - 1 + collection.images.length) % collection.images.length)}
+          onNext={() => setSelectedIndex(i => (i! + 1) % collection.images.length)}
+        />
+      )}
 
       {/* Bouton scroll top */}
       <button
         onClick={scrollToTop}
         aria-label="Scroll to top"
         className={`fixed bottom-12 left-1/2 -translate-x-1/2
-          w-12 h-12
-          flex items-center justify-center
-          rounded-full
-          bg-black/70
-          text-white
-          backdrop-blur
-          shadow-lg
+          w-12 h-12 flex items-center justify-center rounded-full
+          bg-black/70 text-white backdrop-blur shadow-lg
           transition-all duration-500 ease-in-out
           ${showScrollTop ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
           hover:bg-black hover:w-20 hover:scale-105
