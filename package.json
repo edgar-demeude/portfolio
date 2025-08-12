@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "npm run generate:data && concurrently \"next dev --turbopack\" \"chokidar 'public/photos/**/*' -c 'npm run generate:data'\"",
     "start": "next start",
     "lint": "next lint",
     "generate:data": "node scripts/generateData.js",
@@ -27,6 +27,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^9.2.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
     "postcss": "^8.5.3",

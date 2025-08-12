@@ -6,13 +6,16 @@ import useLenisScroll from '@/app/hooks/useLenisScroll';
 import PhotoGrid from '../components/photoGrid';
 import { formatCollectionName } from '../utils/formatCollectionName';
 import Lightbox from '../components/lightbox';
+import dynamic from 'next/dynamic';
 
 type Collection = {
   folder: string;
   images: string[];
 };
 
-export default function GalleryPage() {
+export default dynamic(() => Promise.resolve(GalleryPage), { ssr: false });
+
+function GalleryPage() {
   const params = useSearchParams();
   const collectionName = params.get('collection');
   const [collection, setCollection] = useState<Collection | null>(null);
