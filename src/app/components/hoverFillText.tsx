@@ -34,6 +34,7 @@ export default function HoverFillText({ children, className, active = false }: H
     setBackgroundPos('0%');
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
