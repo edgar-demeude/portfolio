@@ -15,12 +15,12 @@ html.dark {
   overflow: hidden;
 }
 
-/* -------------------------- STYLES GLOBAUX HTML ------------------------- */
+/* -------------------------- HTML GLOBAL STYLES ------------------------- */
 html {
   scrollbar-color: #fafafa;
 }
 
-/* --------------------------- CORPS DE LA PAGE --------------------------- */
+/* --------------------------- PAGE BODY --------------------------- */
 body {
   background: var(--background);
   color: var(--foreground);
@@ -28,7 +28,7 @@ body {
   transition: background-color 0.7s ease, color 0.7s ease;
 }
 
-/* ------------------------- CURSEUR POUR ÉLÉMENTS ------------------------- */
+/* ------------------------- CURSOR FOR ELEMENTS ------------------------- */
 @layer base {
   button,
   a,
