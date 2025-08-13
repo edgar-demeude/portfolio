@@ -5,11 +5,7 @@ import { motion } from 'framer-motion';
 
 const containerVariants = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
+  visible: { transition: { staggerChildren: 0.2 } },
 };
 
 const itemVariants = {
@@ -21,10 +17,7 @@ export default function AboutPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
     document.body.classList.add('no-scroll');
-
-    return () => {
-      document.body.classList.remove('no-scroll');
-    };
+    return () => document.body.classList.remove('no-scroll');
   }, []);
 
   return (
@@ -35,18 +28,15 @@ export default function AboutPage() {
         initial="hidden"
         animate="visible"
       >
-        {/* Title */}
         <motion.h1 className="text-4xl font-bold text-center" variants={itemVariants}>
           About my work
         </motion.h1>
 
-        {/* Intro */}
-        {/* <motion.p className="text-lg font-medium leading-relaxed  " variants={itemVariants}>
-          Photography and video started as a hobby, but quickly became a way for me to slow down and truly look around.  
+        <motion.p className="text-lg italic leading-relaxed" variants={itemVariants}>
+          Photography and video started as a hobby, but quickly became a way for me to slow down and truly look around. 
           It helped me see the beauty in the little things we usually pass by without noticing.
-        </motion.p> */}
+        </motion.p>
 
-        {/* Chasing Light */}
         <motion.div className="space-y-4" variants={itemVariants}>
           <motion.h2 className="text-2xl font-semibold" variants={itemVariants}>
             Chasing light
@@ -56,7 +46,6 @@ export default function AboutPage() {
           </motion.p>
         </motion.div>
 
-        {/* Gear */}
         <motion.div className="space-y-4" variants={itemVariants}>
           <motion.h2 className="text-2xl font-semibold" variants={itemVariants}>
             Gear

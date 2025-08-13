@@ -1,25 +1,20 @@
 'use client';
-
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import useLenisScroll from '@/app/hooks/useLenisScroll';
 import PhotoGrid from '../components/photoGrid';
 import { formatCollectionName } from '../utils/formatCollectionName';
 import Lightbox from '../components/lightbox';
-import dynamic from 'next/dynamic';
 
 type Collection = {
   folder: string;
   images: string[];
 };
 
-export default dynamic(() => Promise.resolve(GalleryPage), { ssr: false });
-
-function GalleryPage() {
+function GalleryContent() {
   const params = useSearchParams();
   const collectionName = params.get('collection');
   const [collection, setCollection] = useState<Collection | null>(null);
-
   const { scrollToTop } = useLenisScroll();
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -58,15 +53,15 @@ function GalleryPage() {
           </span>
         )}
       </div>
-
-      <PhotoGrid 
-        photos={collection.images} 
-        onPhotoClick={setSelectedIndex} 
+      
+      <PhotoGrid
+        photos={collection.images}
+        onPhotoClick={setSelectedIndex}
       />
-
+      
       {/* Lightbox */}
       {selectedIndex !== null && (
-        <Lightbox 
+        <Lightbox
           photos={collection.images}
           index={selectedIndex}
           onClose={() => setSelectedIndex(null)}
@@ -74,7 +69,7 @@ function GalleryPage() {
           onNext={() => setSelectedIndex(i => (i! + 1) % collection.images.length)}
         />
       )}
-
+      
       {/* Bouton scroll top */}
       <button
         onClick={scrollToTop}
@@ -90,5 +85,13 @@ function GalleryPage() {
         ↑
       </button>
     </main>
+  );
+}
+
+export default function GalleryPage() {
+  return (
+    <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
+      <GalleryContent />
+    </Suspense>
   );
 }
