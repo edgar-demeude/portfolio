@@ -9,22 +9,20 @@ type PhotoGridProps = {
 };
 
 export default function PhotoGrid({ photos, onPhotoClick, className }: PhotoGridProps) {
-  // Desktop : 3 colonnes
+  // Desktop : 3 columns
   const distributeDesktop = () => {
     const columns: { src: string; originalIndex: number }[][] = [[], [], []];
     photos.forEach((src, index) => {
-      const columnIndex = index % 3;
-      columns[columnIndex].push({ src, originalIndex: index });
+      columns[index % 3].push({ src, originalIndex: index });
     });
     return columns;
   };
 
-  // Mobile : 2 colonnes
+  // Mobile : 2 columns
   const distributeMobile = () => {
     const columns: { src: string; originalIndex: number }[][] = [[], []];
     photos.forEach((src, index) => {
-      const columnIndex = index % 2;
-      columns[columnIndex].push({ src, originalIndex: index });
+      columns[index % 2].push({ src, originalIndex: index });
     });
     return columns;
   };
@@ -33,9 +31,9 @@ export default function PhotoGrid({ photos, onPhotoClick, className }: PhotoGrid
   const mobileColumns = distributeMobile();
 
   return (
-    <div className={`flex gap-4 px-4 pb-4 ${className || ''}`}>
-      {/* Desktop / tablette */}
-      <div className="hidden md:flex gap-4 px-4 pb-4">
+    <div className={`w-full flex ${className || ''}`}>
+      {/* Desktop / Tablet */}
+      <div className="hidden md:flex gap-4 w-full">
         {desktopColumns.map((col, colIdx) => (
           <div key={colIdx} className="flex-1 space-y-4">
             {col.map(({ src, originalIndex }) => (
@@ -58,8 +56,8 @@ export default function PhotoGrid({ photos, onPhotoClick, className }: PhotoGrid
         ))}
       </div>
 
-      {/* Mobile - 2 colonnes, gaps plus serrés */}
-      <div className="flex md:hidden gap-2 px-2 pb-4">
+      {/* Mobile - 2 columns with minimal horizontal padding */}
+      <div className="flex md:hidden gap-2 w-full">
         {mobileColumns.map((col, colIdx) => (
           <div key={colIdx} className="flex-1 space-y-2">
             {col.map(({ src, originalIndex }) => (
