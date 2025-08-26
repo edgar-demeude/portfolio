@@ -21,7 +21,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <main className="min-h-screen px-6 py-12 md:px-12 lg:px-24 bg-white text-gray-900 dark:bg-black dark:text-white">
+    <main className="min-h-screen px-6 py-12 md:px-12 lg:px-24 transition-colors duration-700">
       <motion.section
         className="max-w-3xl mx-auto space-y-12"
         variants={containerVariants}
@@ -32,10 +32,10 @@ export default function AboutPage() {
           About my work
         </motion.h1>
 
-        <motion.p className="text-lg italic leading-relaxed" variants={itemVariants}>
+        {/* <motion.p className="text-lg italic leading-relaxed" variants={itemVariants}>
           Photography and video started as a hobby, but quickly became a way for me to slow down and truly look around. 
           It helped me see the beauty in the little things we usually pass by without noticing.
-        </motion.p>
+        </motion.p> */}
 
         <motion.div className="space-y-4" variants={itemVariants}>
           <motion.h2 className="text-2xl font-semibold" variants={itemVariants}>

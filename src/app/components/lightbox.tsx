@@ -1,5 +1,6 @@
+'use client';
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
 type LightboxProps = {
@@ -14,6 +15,11 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
   const [isVisible, setIsVisible] = useState(true);
   const [naturalSize, setNaturalSize] = useState<{ w: number; h: number } | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Swipe handling
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -25,135 +31,120 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
     return () => window.removeEventListener("keydown", handleKey);
   }, [onPrev, onNext]);
 
-  useEffect(() => {
-    setImageLoaded(false);
-  }, [index]);
+  useEffect(() => setImageLoaded(false), [index]);
 
   function startClose() {
     setIsVisible(false);
   }
 
-  const aspectRatio = naturalSize ? naturalSize.w / naturalSize.h : 1;
-  const PORTRAIT_SCALE = 1.03;
-  const LANDSCAPE_SCALE = 0.75;
+  // Swipe gestures
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = () => {
+    if (touchStartX.current !== null && touchEndX.current !== null) {
+      const delta = touchEndX.current - touchStartX.current;
+      if (delta > 50) onPrev(); // swipe right
+      else if (delta < -50) onNext(); // swipe left
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
 
-  const containerStyle = naturalSize
-    ? aspectRatio >= 1
-      ? {
-          width: `calc(90vw * ${LANDSCAPE_SCALE})`,
-          height: `calc((90vw / ${aspectRatio}) * ${LANDSCAPE_SCALE})`,
-        }
-      : {
-          width: `calc((90vh * ${aspectRatio}) * ${PORTRAIT_SCALE})`,
-          height: `calc(90vh * ${PORTRAIT_SCALE})`,
-        }
-    : { maxWidth: "90vw", maxHeight: "90vh" };
+  const aspectRatio = naturalSize ? naturalSize.w / naturalSize.h : 1;
+  const maxWidth = window.innerWidth * 0.9;
+  const maxHeight = window.innerHeight * 0.9;
+  let width: number, height: number;
+
+  if (aspectRatio >= 1) {
+    width = Math.min(maxWidth, maxHeight * aspectRatio);
+    height = width / aspectRatio;
+  } else {
+    height = Math.min(maxHeight, maxWidth / aspectRatio);
+    width = height * aspectRatio;
+  }
 
   return (
-    <AnimatePresence
-      onExitComplete={() => {
-        if (!isVisible) onClose();
-      }}
-    >
+    <AnimatePresence onExitComplete={() => { if (!isVisible) onClose(); }}>
       {isVisible && (
         <motion.div
-            key="overlay"
-            className="fixed inset-0 bg-black/97 flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+          key="overlay"
+          className="fixed inset-0 bg-black/97 flex items-center justify-center z-50 p-2 sm:p-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          {/* Click outside to close */}
+          <div
+            className="absolute inset-0"
             onClick={startClose}
-            >
-            <div
-                className="flex items-start space-x-4 mt-12"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <div
-                className="relative flex items-center justify-center shadow-xl"
-                style={containerStyle}
-                >
-                <AnimatePresence mode="wait">
-                    <motion.div
-                    key={`image-wrapper-${photos[index]}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: imageLoaded ? 1 : 0 }}
-                    exit={{ opacity: 0, transition: { duration: 0.15 } }}
-                    transition={{
-                        duration: 0.5,
-                        ease: [0.25, 0.1, 0.25, 1],
-                    }}
-                    className="w-full h-full"
-                    >
-                    <Image
-                        key={photos[index]}
-                        src={photos[index]}
-                        alt={`Image ${index}`}
-                        width={naturalSize?.w || 800}
-                        height={naturalSize?.h || 600}
-                        className="object-contain max-w-full max-h-full"
-                        onLoadingComplete={(img) => {
-                        setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight });
-                        setImageLoaded(true);
-                        }}
-                        priority
-                        style={{ width: "100%", height: "100%" }}
-                    />
-                    </motion.div>
-                </AnimatePresence>
-                </div>
-            </div>
+          />
 
-            {/* Croix de fermeture fixe */}
-            <motion.button
-                onClick={(e) => {
-                e.stopPropagation();
-                startClose();
-                }}
-                className="fixed top-6 right-8 text-white font-bold text-4xl select-none focus:outline-none focus-visible:outline-none hover:text-gray-300 transition-colors
-                        p-4 rounded-full bg-black/50 backdrop-blur-md"
-                aria-label="Close lightbox"
+          {/* Image container */}
+          <div
+            ref={containerRef}
+            className="relative flex items-center justify-center"
+            style={{ width, height, zIndex: 50 }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`image-wrapper-${photos[index]}`}
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-            >
-                ✕
-            </motion.button>
+                animate={{ opacity: imageLoaded ? 1 : 0 }}
+                exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                className="w-full h-full flex items-center justify-center"
+              >
+                <Image
+                  key={photos[index]}
+                  src={photos[index]}
+                  alt={`Image ${index}`}
+                  width={width}
+                  height={height}
+                  className="object-contain"
+                  onLoadingComplete={(img) => {
+                    setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight });
+                    setImageLoaded(true);
+                  }}
+                  priority
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-            {/* Boutons de navigation fixes, un peu plus éloignés des bords */}
-            <motion.button
-                onClick={(e) => {
-                e.stopPropagation();
-                onPrev();
-                }}
-                className="fixed top-1/2 left-8 -translate-y-1/2 text-white text-6xl select-none focus:outline-none focus-visible:outline-none hover:text-gray-300 transition-colors
-                        p-6 inline-flex items-center justify-center rounded-full bg-black/50 backdrop-blur-md"
-                aria-label="Previous image"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-            >
-                ‹
-            </motion.button>
+          {/* Close button */}
+          <motion.button
+            onClick={startClose}
+            className="fixed top-4 right-4 sm:top-6 sm:right-8 text-white text-3xl sm:text-4xl p-2 sm:p-4 rounded-full hover:text-gray-300 transition-colors z-50"
+            aria-label="Close lightbox"
+          >
+            ✕
+          </motion.button>
 
-            <motion.button
-                onClick={(e) => {
-                e.stopPropagation();
-                onNext();
-                }}
-                className="fixed top-1/2 right-8 -translate-y-1/2 text-white text-6xl select-none focus:outline-none focus-visible:outline-none hover:text-gray-300 transition-colors
-                        p-6 inline-flex items-center justify-center rounded-full bg-black/50 backdrop-blur-md"
-                aria-label="Next image"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-            >
-                ›
-            </motion.button>
-            </motion.div>
+          {/* Navigation minimaliste */}
+          <motion.button
+            onClick={onPrev}
+            className="fixed top-1/2 left-2 sm:left-8 -translate-y-1/2 text-white text-4xl sm:text-6xl p-2 sm:p-6 rounded-full hover:text-gray-300 transition-colors z-50"
+            aria-label="Previous image"
+          >
+            ‹
+          </motion.button>
 
-
-
+          <motion.button
+            onClick={onNext}
+            className="fixed top-1/2 right-2 sm:right-8 -translate-y-1/2 text-white text-4xl sm:text-6xl p-2 sm:p-6 rounded-full hover:text-gray-300 transition-colors z-50"
+            aria-label="Next image"
+          >
+            ›
+          </motion.button>
+        </motion.div>
       )}
     </AnimatePresence>
   );

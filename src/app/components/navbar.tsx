@@ -6,6 +6,7 @@ import HoverFillText from './hoverFillText';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { formatCollectionName } from '../utils/formatCollectionName';
+import { Menu, X } from 'lucide-react';
 
 const SCROLL_THRESHOLD = 50;
 
@@ -19,6 +20,7 @@ function getCurrentCollection(pathname: string): string | undefined {
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const ticking = useRef(false);
   const pathname = usePathname();
 
@@ -39,43 +41,43 @@ export default function Navbar() {
 
   const currentCollection = getCurrentCollection(pathname);
 
-  // active si on est sur /collections OU /collections/<slug>
   const isCollectionsActive =
     pathname === '/collections' || pathname.startsWith('/collections/');
-
-  // active si on est sur /about (ou sous-routes si tu en as)
   const isAboutActive = pathname === '/about' || pathname.startsWith('/about/');
 
   return (
     <header
       id="navbar"
       className={`
-        flex items-center px-14 sticky top-0 z-20 text-2xl
-        transition-padding duration-700 ease-out
-        transition-bg-color duration-700 ease-out
-        ${isScrolled ? 'pt-2 pb-1' : 'pt-10 pb-9'}
+        flex items-center justify-between px-6 md:px-14 sticky top-0 z-30 text-2xl
+        transition-all duration-700 ease-out
+        ${isScrolled ? 'pt-3 pb-2' : 'pt-6 md:pt-10 pb-4 md:pb-9'}
       `}
-      style={{ backdropFilter: 'blur(10px)' }}
+      style={{
+        background: 'var(--background)',
+        color: 'var(--foreground)',
+        transition: 'background-color 0.7s ease, color 0.7s ease, padding 0.7s ease',
+      }}
     >
-      <div className="flex-1">
-        <Link href="/" className="text-2xl font-medium inline-block">
-          Edgar Demeude
-        </Link>
-      </div>
+      {/* Left: Name */}
+      <Link href="/" className="text-2xl font-medium z-40">
+        Edgar Demeude
+      </Link>
 
-      <div className="flex-1 text-center">
+      {/* Center (desktop only) */}
+      <div className="hidden md:flex flex-1 justify-center">
         {currentCollection && (
-          // titre central : même taille que la navbar
           <span className="text-2xl font-medium">
             {formatCollectionName(currentCollection)}
           </span>
         )}
       </div>
 
-      <div className="flex-1 flex justify-end items-center space-x-4">
-        <nav className="space-x-6">
+      {/* Right */}
+      <div className="flex items-center space-x-4 z-40">
+        {/* Menu desktop */}
+        <nav className="hidden md:flex space-x-6">
           {isCollectionsActive ? (
-            // version active : HoverFillText en mode actif (texte plein)
             <HoverFillText active className="font-medium">
               Collections
             </HoverFillText>
@@ -95,7 +97,47 @@ export default function Navbar() {
             </Link>
           )}
         </nav>
+
         <ThemeBtn />
+
+        {/* Burger mobile */}
+        <button
+          className="md:hidden p-2"
+          onClick={() => setIsOpen(prev => !prev)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
+
+      {/* Full-screen mobile menu*/}
+      <div
+        className={`
+          fixed inset-0 min-h-screen min-w-full
+          flex flex-col items-center justify-center
+          text-3xl space-y-10
+          transition-opacity duration-300
+          ${isOpen ? 'opacity-100 visible z-50' : 'opacity-0 invisible'}
+        `}
+        style={{
+          background: 'var(--background)',
+          color: 'var(--foreground)',
+        }}
+      >
+        <button
+          className="absolute top-6 right-6 p-2"
+          onClick={() => setIsOpen(false)}
+          aria-label="Close menu"
+        >
+          <X size={32} />
+        </button>
+
+        <Link href="/collections" onClick={() => setIsOpen(false)}>
+          Collections
+        </Link>
+        <Link href="/about" onClick={() => setIsOpen(false)}>
+          About
+        </Link>
       </div>
     </header>
   );

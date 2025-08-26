@@ -45,7 +45,7 @@ function GalleryContent() {
   }
 
   return (
-    <main className="min-h-screen px-6 pb-12 md:px-12 lg:px-24">
+    <main className="min-h-screen px-2 sm:px-6 md:px-12 lg:px-24">
       <div className="flex-1 text-center mb-8">
         {collection.folder && (
           <span className="text-2xl font-medium capitalize">
@@ -53,12 +53,13 @@ function GalleryContent() {
           </span>
         )}
       </div>
-      
+
       <PhotoGrid
         photos={collection.images}
         onPhotoClick={setSelectedIndex}
+        className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4"
       />
-      
+
       {/* Lightbox */}
       {selectedIndex !== null && (
         <Lightbox
@@ -69,7 +70,7 @@ function GalleryContent() {
           onNext={() => setSelectedIndex(i => (i! + 1) % collection.images.length)}
         />
       )}
-      
+
       {/* Bouton scroll top */}
       <button
         onClick={scrollToTop}

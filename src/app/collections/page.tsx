@@ -36,7 +36,11 @@ export default function CollectionsPage() {
   return (
     <main className="min-h-screen px-6 py-12 md:px-12 lg:px-24">
       <motion.div
-        className="max-w-6xl mx-auto flex flex-wrap gap-6"
+        className="
+          max-w-6xl mx-auto
+          grid grid-cols-1 sm:grid-cols-2 gap-6
+          md:flex md:flex-wrap md:justify-start md:gap-6
+        "
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -44,7 +48,13 @@ export default function CollectionsPage() {
         {collections.map((collection, index) => (
           <motion.div
             key={index}
-            className="cursor-pointer w-64 space-y-2 hover:opacity-100 transition-opacity duration-500 ease-in-out"
+            className="
+              cursor-pointer
+              w-full sm:w-auto md:w-64
+              space-y-2
+              hover:opacity-100 transition-opacity duration-500 ease-in-out
+              active:scale-95
+            "
             variants={itemVariants}
           >
             <Link href={`/gallery?collection=${encodeURIComponent(collection.folder)}`}>
@@ -52,7 +62,7 @@ export default function CollectionsPage() {
                 <motion.img
                   src={collection.previewImage}
                   alt={`Preview of ${collection.title}`}
-                  className="h-48 w-full rounded-lg object-cover"
+                  className="w-full rounded-lg object-cover aspect-w-4 aspect-h-3"
                   variants={itemVariants}
                   whileHover={{ scale: 1.05 }}
                 />
