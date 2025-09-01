@@ -52,7 +52,7 @@ src/
 
 ## Live Site
 
-Check the live site here: [https://edgar-demeude.vercel.app/photography/](https://edgar-demeude.vercel.app/photography/)
+Check the live site here: [https://edgar-demeude.vercel.app/](https://edgar-demeude.vercel.app/)
 
 ## License
 
