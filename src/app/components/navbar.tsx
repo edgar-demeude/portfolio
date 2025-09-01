@@ -85,56 +85,59 @@ export default function Navbar() {
       </div>
 
       {/* Mobile full-screen menu */}
-      {isOpen && (
-        <motion.div
-          key="mobile-menu"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center text-3xl space-y-6"
-        >
-          {/* Close button */}
-          <button
-            className="absolute top-6 right-6 p-2 text-white"
-            onClick={() => setIsOpen(false)}
-            aria-label="Close menu"
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center text-3xl space-y-6"
           >
-            <X size={32} />
-          </button>
-
-          <Link href="/" onClick={() => setIsOpen(false)} className="py-3 text-white">Home</Link>
-          <Link href="/research" onClick={() => setIsOpen(false)} className="py-3 text-white">Research</Link>
-
-          {/* Projects submenu */}
-          <div className="w-full flex flex-col items-center">
+            {/* Close button */}
             <button
-              className="flex items-center space-x-2 py-3 font-medium text-white"
-              onClick={() => setIsProjectsOpen(prev => !prev)}
+              className="absolute top-6 right-6 p-2 text-white"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close menu"
             >
-              <span>Projects</span>
-              {isProjectsOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+              <X size={32} />
             </button>
-            <AnimatePresence>
-              {isProjectsOpen && (
-                <motion.div
-                  key="projects-submenu"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex flex-col items-center mt-3 space-y-3 pl-6 border-l border-white"
-                >
-                  <Link href="/photography" onClick={() => setIsOpen(false)} className="text-white">Photography</Link>
-                  <Link href="/videos" onClick={() => setIsOpen(false)} className="text-white">Videos</Link>
-                  <Link href="/music" onClick={() => setIsOpen(false)} className="text-white">Music</Link>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
 
-          <Link href="/about" onClick={() => setIsOpen(false)} className="py-3 text-white">About</Link>
-        </motion.div>
-      )}
+            <Link href="/" onClick={() => setIsOpen(false)} className="py-3 text-white">Home</Link>
+            <Link href="/research" onClick={() => setIsOpen(false)} className="py-3 text-white">Research</Link>
+
+            {/* Projects submenu */}
+            <div className="w-full flex flex-col items-center">
+              <button
+                className="flex items-center space-x-2 py-3 font-medium text-white"
+                onClick={() => setIsProjectsOpen(prev => !prev)}
+              >
+                <span>Projects</span>
+                {isProjectsOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+              </button>
+              <AnimatePresence>
+                {isProjectsOpen && (
+                  <motion.div
+                    key="projects-submenu"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex flex-col items-center mt-3 space-y-3 pl-6 border-l border-white"
+                  >
+                    <Link href="/photography" onClick={() => setIsOpen(false)} className="text-white">Photography</Link>
+                    <Link href="/videos" onClick={() => setIsOpen(false)} className="text-white">Videos</Link>
+                    <Link href="/music" onClick={() => setIsOpen(false)} className="text-white">Music</Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <Link href="/about" onClick={() => setIsOpen(false)} className="py-3 text-white">About</Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
