@@ -74,3 +74,10 @@ html.dark #navbar {
   transition-duration: 200ms;
   transition-timing-function: ease-in-out;
 }
+
+.photo-hover {
+  @apply transition-transform duration-1000 ease-in-out;
+}
+.photo-hover:hover {
+  @apply scale-110;
+}

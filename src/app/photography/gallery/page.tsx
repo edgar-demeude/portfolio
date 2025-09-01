@@ -5,6 +5,7 @@ import useLenisScroll from '@/app/hooks/useLenisScroll';
 import PhotoGrid from '../../components/photoGrid';
 import { formatCollectionName } from '../../utils/formatCollectionName';
 import Lightbox from '../../components/lightbox';
+import Footer from '@/app/components/footer';
 
 type Collection = {
   folder: string;
@@ -46,7 +47,7 @@ function GalleryContent() {
 
   return (
     <main className="min-h-screen px-2 sm:px-6 md:px-12 lg:px-24">
-      <div className="flex-1 text-center mb-8">
+      <div className="flex-1 text-center mb-12">
         {collection.folder && (
           <span className="text-2xl font-medium capitalize">
             {formatCollectionName(collection.folder)}
@@ -71,20 +72,22 @@ function GalleryContent() {
         />
       )}
 
-      {/* Bouton scroll top */}
+      {/* Scroll top button */}
       <button
         onClick={scrollToTop}
         aria-label="Scroll to top"
-        className={`fixed bottom-12 left-1/2 -translate-x-1/2
-          w-12 h-12 flex items-center justify-center rounded-full
+        className={`
+          fixed bottom-6 left-1/2 -translate-x-1/2
+          w-16 h-16 sm:w-12 sm:h-12 flex items-center justify-center rounded-full
           bg-black/70 text-white backdrop-blur shadow-lg
           transition-all duration-500 ease-in-out
           ${showScrollTop ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
-          hover:bg-black hover:w-20 hover:scale-105
+          hover:bg-black hover:scale-105 hover:w-20
         `}
       >
         ↑
       </button>
+      <Footer />
     </main>
   );
 }

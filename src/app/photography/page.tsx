@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import Footer from '../components/footer';
 
 type Collection = {
   folder: string;
@@ -10,18 +11,16 @@ type Collection = {
   previewImage: string;
 };
 
+// Container variant for cascade effect
 const containerVariants = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
+  visible: { transition: { staggerChildren: 0.1 } }, // delay between items
 };
 
+// Each item fade-in + slight scale
 const itemVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.95 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: 'easeOut' } },
+  hidden: { opacity: 0, scale: 0.97 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
 };
 
 export default function CollectionsPage() {
@@ -34,13 +33,15 @@ export default function CollectionsPage() {
   }, []);
 
   return (
-    <main className="min-h-screen px-6 py-12 md:px-12 lg:px-24">
+    <main className="flex flex-col min-h-screen px-4 sm:px-8 md:px-12 lg:px-16">
+      {/* Page Title */}
+      <div className="text-center mb-8">
+        <span className="text-2xl font-medium capitalize">Collections</span>
+      </div>
+
+      {/* Collections Grid with animation */}
       <motion.div
-        className="
-          max-w-6xl mx-auto
-          grid grid-cols-1 sm:grid-cols-2 gap-6
-          md:flex md:flex-wrap md:justify-start md:gap-6
-        "
+        className="max-w-[1800px] mx-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -48,32 +49,33 @@ export default function CollectionsPage() {
         {collections.map((collection, index) => (
           <motion.div
             key={index}
-            className="
-              cursor-pointer
-              w-full sm:w-auto md:w-64
-              space-y-2
-              hover:opacity-100 transition-opacity duration-500 ease-in-out
-              active:scale-95
-            "
             variants={itemVariants}
+            className="w-full"
           >
-            <Link href={`/photography/gallery?collection=${encodeURIComponent(collection.folder)}`}>
-              {collection.previewImage && (
-                <motion.img
-                  src={collection.previewImage}
-                  alt={`Preview of ${collection.title}`}
-                  className="w-full rounded-lg object-cover aspect-w-4 aspect-h-3"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05 }}
-                />
-              )}
-              <motion.h2 className="text-lg font-medium" variants={itemVariants}>
-                {collection.title}
-              </motion.h2>
+            <Link
+              href={`/photography/gallery?collection=${encodeURIComponent(collection.folder)}`}
+            >
+              <div className="group cursor-pointer flex flex-col space-y-4">
+                <div className="overflow-hidden w-full aspect-[3/2] bg-neutral-900">
+                  <img
+                    src={collection.previewImage}
+                    alt={`Preview of ${collection.title}`}
+                    className="w-full h-full object-cover photo-hover"
+                  />
+                </div>
+                <h2 className="text-center text-xl font-medium tracking-wide group-hover:opacity-80 transition-opacity duration-300">
+                  {collection.title}
+                </h2>
+              </div>
             </Link>
           </motion.div>
         ))}
       </motion.div>
+
+      {/* Footer */}
+      <div className="mt-auto">
+        <Footer />
+      </div>
     </main>
   );
 }

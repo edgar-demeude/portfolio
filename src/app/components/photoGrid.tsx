@@ -48,7 +48,7 @@ export default function PhotoGrid({ photos, onPhotoClick, className }: PhotoGrid
                   width={600}
                   height={800}
                   index={originalIndex}
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover photo-hover "
                 />
               </div>
             ))}

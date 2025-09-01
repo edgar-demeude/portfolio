@@ -70,9 +70,9 @@ export default function Navbar() {
         </Link>
 
         {/* Language & Theme */}
-        <button aria-label="Change language" className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-70 transition-all duration-300">
+        {/* <button aria-label="Change language" className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-70 transition-all duration-300">
           En
-        </button>
+        </button> */}
         <ThemeBtn />
       </nav>
 
