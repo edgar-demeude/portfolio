@@ -57,7 +57,7 @@ export default function CollectionsPage() {
             "
             variants={itemVariants}
           >
-            <Link href={`/gallery?collection=${encodeURIComponent(collection.folder)}`}>
+            <Link href={`/photography/gallery?collection=${encodeURIComponent(collection.folder)}`}>
               {collection.previewImage && (
                 <motion.img
                   src={collection.previewImage}

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 import Navbar from './navbar';
+import Footer from './footer';
 
 export default function ClientLayout({ children }: { children: ReactNode }) {
   return (
@@ -15,6 +16,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
         transition={{ duration: 0.4 }}
       >
         {children}
+        <Footer />
       </motion.div>
     </>
   );

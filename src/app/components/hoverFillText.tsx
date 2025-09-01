@@ -112,7 +112,7 @@ export default function HoverFillText({ children, className, active = false }: H
           ? {
               fontWeight: 500,
               color: currentTheme === 'dark' ? '#fff' : '#000', // texte plein
-              cursor: 'default',
+              cursor: 'pointer',
               display: 'inline-block',
             }
           : {

@@ -11,9 +11,9 @@ type PhotoGridProps = {
 export default function PhotoGrid({ photos, onPhotoClick, className }: PhotoGridProps) {
   // Desktop : 3 columns
   const distributeDesktop = () => {
-    const columns: { src: string; originalIndex: number }[][] = [[], [], []];
+    const columns: { src: string; originalIndex: number }[][] = [[], [], [], []];
     photos.forEach((src, index) => {
-      columns[index % 3].push({ src, originalIndex: index });
+      columns[index % 4].push({ src, originalIndex: index });
     });
     return columns;
   };

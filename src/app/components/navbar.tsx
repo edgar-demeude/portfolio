@@ -5,22 +5,15 @@ import ThemeBtn from './themeBtn';
 import HoverFillText from './hoverFillText';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { formatCollectionName } from '../utils/formatCollectionName';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const SCROLL_THRESHOLD = 50;
-
-function getCurrentCollection(pathname: string): string | undefined {
-  const parts = pathname.split('/');
-  if (parts[1] === 'collections' && parts[2]) {
-    return decodeURIComponent(parts[2]);
-  }
-  return undefined;
-}
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
   const ticking = useRef(false);
   const pathname = usePathname();
 
@@ -38,12 +31,6 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const currentCollection = getCurrentCollection(pathname);
-
-  const isCollectionsActive =
-    pathname === '/collections' || pathname.startsWith('/collections/');
-  const isAboutActive = pathname === '/about' || pathname.startsWith('/about/');
 
   return (
     <header
@@ -64,81 +51,90 @@ export default function Navbar() {
         Edgar Demeude
       </Link>
 
-      {/* Center (desktop only) */}
-      <div className="hidden md:flex flex-1 justify-center">
-        {currentCollection && (
-          <span className="text-2xl font-medium">
-            {formatCollectionName(currentCollection)}
-          </span>
-        )}
-      </div>
+      {/* Desktop nav */}
+      <nav className="hidden md:flex flex-1 justify-end items-center space-x-6">
+        <Link href="/research" className={pathname.startsWith('/research') ? 'font-semibold' : ''}>
+          <HoverFillText active={pathname.startsWith('/research')}>Research</HoverFillText>
+        </Link>
+        <Link href="/photography" className={pathname.startsWith('/photography') ? 'font-semibold' : ''}>
+          <HoverFillText active={pathname.startsWith('/photography')}>Photography</HoverFillText>
+        </Link>
+        <Link href="/videos" className={pathname.startsWith('/videos') ? 'font-semibold' : ''}>
+          <HoverFillText active={pathname.startsWith('/videos')}>Videos</HoverFillText>
+        </Link>
+        <Link href="/music" className={pathname.startsWith('/music') ? 'font-semibold' : ''}>
+          <HoverFillText active={pathname.startsWith('/music')}>Music</HoverFillText>
+        </Link>
+        <Link href="/about" className={pathname.startsWith('/about') ? 'font-semibold' : ''}>
+          <HoverFillText active={pathname.startsWith('/about')}>About</HoverFillText>
+        </Link>
 
-      {/* Right */}
-      <div className="flex items-center space-x-4 z-40">
-        {/* Menu desktop */}
-        <nav className="hidden md:flex space-x-6">
-          {isCollectionsActive ? (
-            <HoverFillText active className="font-medium">
-              Collections
-            </HoverFillText>
-          ) : (
-            <Link href="/collections">
-              <HoverFillText className="font-medium">Collections</HoverFillText>
-            </Link>
-          )}
-
-          {isAboutActive ? (
-            <HoverFillText active className="font-medium">
-              About
-            </HoverFillText>
-          ) : (
-            <Link href="/about">
-              <HoverFillText className="font-medium">About</HoverFillText>
-            </Link>
-          )}
-        </nav>
-
+        {/* Language & Theme */}
+        <button aria-label="Change language" className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-70 transition-all duration-300">
+          En
+        </button>
         <ThemeBtn />
+      </nav>
 
-        {/* Burger mobile */}
-        <button
-          className="md:hidden p-2"
-          onClick={() => setIsOpen(prev => !prev)}
-          aria-label="Toggle menu"
-        >
+      {/* Mobile burger */}
+      <div className="md:hidden flex items-center space-x-2">
+        <ThemeBtn />
+        <button className="p-2" onClick={() => setIsOpen(prev => !prev)} aria-label="Toggle menu">
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Full-screen mobile menu*/}
-      <div
-        className={`
-          fixed inset-0 min-h-screen min-w-full
-          flex flex-col items-center justify-center
-          text-3xl space-y-10
-          transition-opacity duration-300
-          ${isOpen ? 'opacity-100 visible z-50' : 'opacity-0 invisible'}
-        `}
-        style={{
-          background: 'var(--background)',
-          color: 'var(--foreground)',
-        }}
-      >
-        <button
-          className="absolute top-6 right-6 p-2"
-          onClick={() => setIsOpen(false)}
-          aria-label="Close menu"
+      {/* Mobile full-screen menu */}
+      {isOpen && (
+        <motion.div
+          key="mobile-menu"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center text-3xl space-y-6"
         >
-          <X size={32} />
-        </button>
+          {/* Close button */}
+          <button
+            className="absolute top-6 right-6 p-2 text-white"
+            onClick={() => setIsOpen(false)}
+            aria-label="Close menu"
+          >
+            <X size={32} />
+          </button>
 
-        <Link href="/collections" onClick={() => setIsOpen(false)}>
-          Collections
-        </Link>
-        <Link href="/about" onClick={() => setIsOpen(false)}>
-          About
-        </Link>
-      </div>
+          <Link href="/" onClick={() => setIsOpen(false)} className="py-3 text-white">Home</Link>
+          <Link href="/research" onClick={() => setIsOpen(false)} className="py-3 text-white">Research</Link>
+
+          {/* Projects submenu */}
+          <div className="w-full flex flex-col items-center">
+            <button
+              className="flex items-center space-x-2 py-3 font-medium text-white"
+              onClick={() => setIsProjectsOpen(prev => !prev)}
+            >
+              <span>Projects</span>
+              {isProjectsOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            </button>
+            <AnimatePresence>
+              {isProjectsOpen && (
+                <motion.div
+                  key="projects-submenu"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col items-center mt-3 space-y-3 pl-6 border-l border-white"
+                >
+                  <Link href="/photography" onClick={() => setIsOpen(false)} className="text-white">Photography</Link>
+                  <Link href="/videos" onClick={() => setIsOpen(false)} className="text-white">Videos</Link>
+                  <Link href="/music" onClick={() => setIsOpen(false)} className="text-white">Music</Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <Link href="/about" onClick={() => setIsOpen(false)} className="py-3 text-white">About</Link>
+        </motion.div>
+      )}
     </header>
   );
 }

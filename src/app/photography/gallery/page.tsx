@@ -2,9 +2,9 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import useLenisScroll from '@/app/hooks/useLenisScroll';
-import PhotoGrid from '../components/photoGrid';
-import { formatCollectionName } from '../utils/formatCollectionName';
-import Lightbox from '../components/lightbox';
+import PhotoGrid from '../../components/photoGrid';
+import { formatCollectionName } from '../../utils/formatCollectionName';
+import Lightbox from '../../components/lightbox';
 
 type Collection = {
   folder: string;

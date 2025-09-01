@@ -16,8 +16,6 @@ const itemVariants = {
 export default function AboutPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.body.classList.add('no-scroll');
-    return () => document.body.classList.remove('no-scroll');
   }, []);
 
   return (
@@ -28,30 +26,41 @@ export default function AboutPage() {
         initial="hidden"
         animate="visible"
       >
+        {/* Title */}
         <motion.h1 className="text-4xl font-bold text-center" variants={itemVariants}>
-          About my work
+          About me
         </motion.h1>
 
-        {/* <motion.p className="text-lg italic leading-relaxed" variants={itemVariants}>
-          Photography and video started as a hobby, but quickly became a way for me to slow down and truly look around. 
-          It helped me see the beauty in the little things we usually pass by without noticing.
-        </motion.p> */}
-
+        {/* Research */}
         <motion.div className="space-y-4" variants={itemVariants}>
           <motion.h2 className="text-2xl font-semibold" variants={itemVariants}>
-            Chasing light
+            Research
           </motion.h2>
           <motion.p className="text-lg leading-relaxed" variants={itemVariants}>
-            I tend to follow light. Sometimes, it leads me somewhere I expected; other times, it surprises me with something far more interesting than I could have planned.
+            I aim to become a research scientist focusing on AI alignment and security. 
+            I believe it is crucial to provide guidance and oversight for emerging technologies, and that research in this field is essential to ensure that technological progress remains ethical and aligned with human values and morals.
           </motion.p>
         </motion.div>
 
+        {/* Photography */}
         <motion.div className="space-y-4" variants={itemVariants}>
           <motion.h2 className="text-2xl font-semibold" variants={itemVariants}>
-            Gear
+            Photography
           </motion.h2>
           <motion.p className="text-lg leading-relaxed" variants={itemVariants}>
-            I shoot everything on a Fujifilm X-T4, mostly with a 23 mm lens (35 mm full-frame equivalent). I love how it captures enough of the surroundings to tell a story through context, but still demands careful composition so things don’t get too chaotic.
+            I tend to follow light. Sometimes, it takes me exactly where I expect. Other times, it surprises me with something far more interesting than I could have planned. 
+            I shoot everything with a Fujifilm X-T4, mainly with a 23mm lens. I love the natural feel of this focal length, it forces me to focus on composition so the frame doesn’t become messy.
+          </motion.p>
+        </motion.div>
+
+        {/* Music */}
+        <motion.div className="space-y-4" variants={itemVariants}>
+          <motion.h2 className="text-2xl font-semibold" variants={itemVariants}>
+            Music
+          </motion.h2>
+          <motion.p className="text-lg leading-relaxed" variants={itemVariants}>
+            I started as a drummer, then moved to piano, and later to guitar. I enjoy exploring both the similarities and differences between instruments. 
+            I am especially drawn to technically challenging pieces, with Polyphia being one of my main inspirations.
           </motion.p>
         </motion.div>
       </motion.section>
