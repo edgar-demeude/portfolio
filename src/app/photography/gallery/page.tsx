@@ -3,9 +3,21 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import useLenisScroll from '@/app/hooks/useLenisScroll';
 import PhotoGrid from '../../components/photoGrid';
-import { formatCollectionName } from '../../utils/formatCollectionName';
 import Lightbox from '../../components/lightbox';
 import Footer from '@/app/components/footer';
+
+// Folder name -> display title
+function formatFolderName(folder: string) {
+  if (!folder) return '';
+  if (folder.toLowerCase().startsWith('ongoing')) {
+    // "ongoing_lyon" -> "Lyon"
+    return folder.replace(/^ongoing[_-]/i, '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+  // "23_japan23" or "2024_japan24" -> "Japan 23" / "Japan 24"
+  const withoutPrefix = folder.replace(/^\d+[_-]/, '');
+  const spaced = withoutPrefix.replace(/([a-zA-Z])(\d)/g, '$1 $2').replace(/_/g, ' ');
+  return spaced.replace(/\b\w/g, c => c.toUpperCase());
+}
 
 type Collection = {
   folder: string;
@@ -37,22 +49,15 @@ function GalleryContent() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (!collectionName) {
-    return <p className="text-center mt-10">No collection selected.</p>;
-  }
-
-  if (!collection) {
-    return <p className="text-center mt-10"></p>;
-  }
+  if (!collectionName) return <p className="text-center mt-10">No collection selected.</p>;
+  if (!collection) return <p className="text-center mt-10"></p>;
 
   return (
     <main className="min-h-screen px-2 sm:px-6 md:px-12 lg:px-24">
       <div className="flex-1 text-center mb-12">
-        {collection.folder && (
-          <span className="text-2xl font-medium capitalize">
-            {formatCollectionName(collection.folder)}
-          </span>
-        )}
+        <span className="text-2xl font-medium capitalize">
+          {formatFolderName(collection.folder)}
+        </span>
       </div>
 
       <PhotoGrid
@@ -61,13 +66,14 @@ function GalleryContent() {
         className=""
       />
 
-      {/* Lightbox */}
       {selectedIndex !== null && (
         <Lightbox
           photos={collection.images}
           index={selectedIndex}
           onClose={() => setSelectedIndex(null)}
-          onPrev={() => setSelectedIndex(i => (i! - 1 + collection.images.length) % collection.images.length)}
+          onPrev={() =>
+            setSelectedIndex(i => (i! - 1 + collection.images.length) % collection.images.length)
+          }
           onNext={() => setSelectedIndex(i => (i! + 1) % collection.images.length)}
         />
       )}
@@ -87,6 +93,7 @@ function GalleryContent() {
       >
         ↑
       </button>
+
       <Footer />
     </main>
   );
