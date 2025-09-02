@@ -69,8 +69,8 @@ export default function CollectionsPage() {
         <section key={year} className="mb-16 sm:mb-20 md:mb-24">
           {/* Year Divider */}
           <div className="flex items-center mb-8 sm:mb-10">
-            <span className="text-base sm:text-sm italic text-gray-800 dark:text-gray-300 pr-4 whitespace-nowrap">{year}</span>
-            <div className="flex-1 h-px bg-gray-300 dark:bg-neutral-700" />
+            <span className="text-base sm:text-sm italic year-text pr-4 whitespace-nowrap">{year}</span>
+            <div className="flex-1 thin-separator" />
           </div>
 
           {/* Collections Grid */}
