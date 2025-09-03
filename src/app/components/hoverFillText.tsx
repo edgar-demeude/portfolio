@@ -1,5 +1,5 @@
 // hoverFillText.tsx
-import { useState, useEffect, useRef, ReactNode } from 'react';
+import { useState, useEffect, useRef, ReactNode, useCallback } from 'react';
 import { useTheme } from 'next-themes';
 
 type HoverFillTextProps = {
@@ -16,13 +16,7 @@ export default function HoverFillText({ children, className, active = false }: H
   const timeoutId = useRef<number | null>(null);
   const { theme, systemTheme } = useTheme();
 
-  useEffect(() => {
-    setMounted(true);
-  }, [startHoverAnimation]);
-
-  const currentTheme = mounted ? (theme === 'system' ? systemTheme : theme) : null;
-
-  function startHoverAnimation() {
+  const startHoverAnimation = useCallback(() => {
     if (active) return;
     const el = ref.current;
     if (!el) return;
@@ -32,17 +26,24 @@ export default function HoverFillText({ children, className, active = false }: H
     el.style.transition = 'background-position 0.4s ease-in-out';
     el.style.backgroundPositionX = '0%';
     setBackgroundPos('0%');
-  }
+  }, [active]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const currentTheme = mounted ? (theme === 'system' ? systemTheme : theme) : null;
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
     if (timeoutId.current !== null) {
       clearTimeout(timeoutId.current);
       timeoutId.current = null;
     }
+
     if (active) {
-      // si actif → pas de dégradé, juste couleur pleine
       el.style.transition = 'none';
       el.style.backgroundPositionX = '0%';
     } else {
@@ -65,8 +66,7 @@ export default function HoverFillText({ children, className, active = false }: H
 
     if (hovered) {
       startHoverAnimation();
-    } else {
-      if (active) return; // pas d'effet quand actif
+    } else if (!active) {
       el.style.transition = 'background-position 0.6s ease-in-out';
       el.style.backgroundPositionX = '-100%';
       timeoutId.current = window.setTimeout(() => {
@@ -77,31 +77,23 @@ export default function HoverFillText({ children, className, active = false }: H
         timeoutId.current = null;
       }, 500);
     }
-  }, [hovered, active, mounted]);
+  }, [hovered, active, mounted, startHoverAnimation]);
 
-  if (!mounted) {
-    return <span style={{ opacity: 0 }}>{children}</span>;
-  }
+  if (!mounted) return <span style={{ opacity: 0 }}>{children}</span>;
 
   return (
     <span
       ref={ref}
       onMouseEnter={() => {
         if (!active) {
-          if (timeoutId.current !== null) {
-            clearTimeout(timeoutId.current);
-            timeoutId.current = null;
-          }
+          if (timeoutId.current !== null) clearTimeout(timeoutId.current);
           startHoverAnimation();
           setHovered(true);
         }
       }}
       onMouseLeave={() => {
         if (!active) {
-          if (timeoutId.current !== null) {
-            clearTimeout(timeoutId.current);
-            timeoutId.current = null;
-          }
+          if (timeoutId.current !== null) clearTimeout(timeoutId.current);
           setHovered(false);
         }
       }}
@@ -110,7 +102,7 @@ export default function HoverFillText({ children, className, active = false }: H
         active
           ? {
               fontWeight: 500,
-              color: currentTheme === 'dark' ? '#fff' : '#000', // texte plein
+              color: currentTheme === 'dark' ? '#fff' : '#000',
               cursor: 'pointer',
               display: 'inline-block',
             }

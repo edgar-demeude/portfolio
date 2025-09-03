@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 
 type LightboxProps = {
@@ -13,14 +13,21 @@ type LightboxProps = {
 
 export default function Lightbox({ photos, index, onClose, onPrev, onNext }: LightboxProps) {
   const [naturalSize, setNaturalSize] = useState<{ w: number; h: number } | null>(null);
-  const [direction, setDirection] = useState(0); // swipe direction
   const imgCache = useRef<Record<string, HTMLImageElement>>({});
+
+  const handlePrev = useCallback(() => {
+    onPrev();
+  }, [onPrev]);
+
+  const handleNext = useCallback(() => {
+    onNext();
+  }, [onNext]);
 
   // Preload surrounding images
   useEffect(() => {
     const preload = [
       photos[(index - 1 + photos.length) % photos.length],
-      photos[(index + 1) % photos.length]
+      photos[(index + 1) % photos.length],
     ];
     preload.forEach(src => {
       if (!imgCache.current[src]) {
@@ -33,16 +40,6 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
 
   useEffect(() => setNaturalSize(null), [index]);
 
-  const handlePrev = () => {
-  setDirection(-1);
-  onPrev();
-  };
-
-  const handleNext = () => {
-    setDirection(1);
-    onNext();
-  };
-
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -51,7 +48,7 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, []);
+  }, [handlePrev, handleNext, onClose]);
 
   const maxWidth = window.innerWidth * 0.9;
   const maxHeight = window.innerHeight * 0.9;
@@ -73,10 +70,10 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
       {/* Swipeable image */}
       <motion.div
         animate={{ x: 0, opacity: 1 }}
-        initial={false} // important: prevents re-mount animations
+        initial={false}
         transition={{
-          type: "tween",
-          ease: "easeInOut",
+          type: 'tween',
+          ease: 'easeInOut',
           duration: 0.35,
         }}
         className="relative flex items-center justify-center"
@@ -90,11 +87,11 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
         }}
       >
         <motion.div
-          key={photos[index]} // only the inner image changes
+          key={photos[index]}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
           className="absolute inset-0 flex items-center justify-center"
         >
           <Image
@@ -103,9 +100,7 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
             width={width}
             height={height}
             className="object-contain"
-            onLoadingComplete={(img) =>
-              setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight })
-            }
+            onLoadingComplete={img => setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight })}
             loading="eager"
           />
         </motion.div>
