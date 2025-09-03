@@ -60,11 +60,16 @@ async function generate() {
       const fullPath = path.join(folderPath, file);
       const thumbFile = path.join(thumbPath, file);
 
-      await sharp(fullPath)
-        .resize({ width: 800 })
-        .jpeg({ quality: 80 })
-        .toFile(thumbFile);
-      console.log(`Generated thumb: ${thumbFile}`);
+      // Skip if thumbnail already exists
+      if (!fs.existsSync(thumbFile)) {
+        await sharp(fullPath)
+          .resize({ width: 1000 }) // bigger thumbnails
+          .jpeg({ quality: 80 })
+          .toFile(thumbFile);
+        console.log(`Generated thumb: ${thumbFile}`);
+      } else {
+        console.log(`Skipped (already exists): ${thumbFile}`);
+      }
 
       images.push(`/photos/${folder}/${file}`);
       thumbs.push(`/photos/${folder}/thumbs/${file}`);

@@ -72,30 +72,43 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
 
       {/* Swipeable image */}
       <motion.div
-        key={photos[index]}
-        initial={{ x: direction * 200 }}
-        animate={{ x: 0 }}
-        exit={{ x: -direction * 200 }}
-        transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+        animate={{ x: 0, opacity: 1 }}
+        initial={false} // important: prevents re-mount animations
+        transition={{
+          type: "tween",
+          ease: "easeInOut",
+          duration: 0.35,
+        }}
         className="relative flex items-center justify-center"
         style={{ width, height }}
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.15}
+        dragElastic={0.1}
         onDragEnd={(e, info) => {
           if (info.offset.x > 50) handlePrev();
           if (info.offset.x < -50) handleNext();
         }}
       >
-        <Image
-          src={photos[index]}
-          alt={`Image ${index}`}
-          width={width}
-          height={height}
-          className="object-contain"
-          onLoadingComplete={(img) => setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight })}
-          loading="eager"
-        />
+        <motion.div
+          key={photos[index]} // only the inner image changes
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="absolute inset-0 flex items-center justify-center"
+        >
+          <Image
+            src={photos[index]}
+            alt={`Image ${index}`}
+            width={width}
+            height={height}
+            className="object-contain"
+            onLoadingComplete={(img) =>
+              setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight })
+            }
+            loading="eager"
+          />
+        </motion.div>
       </motion.div>
 
       {/* Controls */}
