@@ -9,7 +9,7 @@ type PhotoGridProps = {
 };
 
 export default function PhotoGrid({ photos, onPhotoClick, className }: PhotoGridProps) {
-  // Desktop : 3 columns
+  // Desktop : 4 columns
   const distributeDesktop = () => {
     const columns: { src: string; originalIndex: number }[][] = [[], [], [], []];
     photos.forEach((src, index) => {
@@ -48,7 +48,8 @@ export default function PhotoGrid({ photos, onPhotoClick, className }: PhotoGrid
                   width={600}
                   height={800}
                   index={originalIndex}
-                  className="w-full h-auto object-cover photo-hover "
+                  className="w-full h-auto object-cover photo-hover"
+                  priority={originalIndex < 3} // first 3 thumbs in priority
                 />
               </div>
             ))}
@@ -90,9 +91,10 @@ type FadeInImageProps = {
   height: number;
   index: number;
   className?: string;
+  priority?: boolean;
 };
 
-function FadeInImage({ src, alt, width, height, className, index }: FadeInImageProps) {
+function FadeInImage({ src, alt, width, height, className, index, priority }: FadeInImageProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -111,6 +113,8 @@ function FadeInImage({ src, alt, width, height, className, index }: FadeInImageP
         transform transition-all duration-700 ease-out
         ${visible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}
       `}
+      priority={priority}
+      loading={priority ? 'eager' : 'lazy'}
     />
   );
 }

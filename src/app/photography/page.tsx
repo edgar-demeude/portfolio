@@ -1,29 +1,43 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import Footer from '../components/footer';
 import useLenisScroll from '@/app/hooks/useLenisScroll';
+import Image from "next/image";
 
 type Collection = {
   folder: string;
   title: string;
-  previewImage: string;
   year: string | number;
   images: string[];
+  thumbs: string[];
 };
 
+// Simple in-memory cache
+let collectionsCache: Collection[] | null = null;
+
 // Container variant for cascade animation
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
 };
 
 // Each item fade-in + slight scale
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, scale: 0.97 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.4, 0, 0.2, 1],
+    },
+  },
 };
 
 export default function CollectionsPage() {
@@ -32,9 +46,16 @@ export default function CollectionsPage() {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
-    fetch('/collections.json')
-      .then(res => res.json())
-      .then(setCollections);
+    if (collectionsCache) {
+      setCollections(collectionsCache);
+    } else {
+      fetch('/collections.json')
+        .then(res => res.json())
+        .then((data: Collection[]) => {
+          collectionsCache = data; // save to cache
+          setCollections(data);
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -64,7 +85,6 @@ export default function CollectionsPage() {
       <div className="text-center mb-12">
         <span className="text-2xl font-medium capitalize">Collections</span>
       </div>
-
       {sortedYears.map(year => (
         <section key={year} className="mb-16 sm:mb-20 md:mb-24">
           {/* Year Divider */}
@@ -72,7 +92,6 @@ export default function CollectionsPage() {
             <span className="text-base sm:text-sm italic year-text pr-4 whitespace-nowrap">{year}</span>
             <div className="flex-1 thin-separator" />
           </div>
-
           {/* Collections Grid */}
           <motion.div
             className="max-w-[1800px] mx-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -85,10 +104,17 @@ export default function CollectionsPage() {
                 <Link href={`/photography/gallery?collection=${encodeURIComponent(collection.folder)}`}>
                   <div className="group cursor-pointer flex flex-col space-y-4">
                     <div className="overflow-hidden w-full aspect-[3/2] bg-neutral-900">
-                      <img
-                        src={collection.previewImage}
+                      <Image
+                        src={collection.thumbs[0]}
                         alt={`Preview of ${collection.title}`}
+                        width={1200}
+                        height={800}
                         className="w-full h-full object-cover photo-hover"
+                        sizes="(max-width: 768px) 100vw,
+                               (max-width: 1200px) 50vw,
+                               33vw"
+                        priority={index < 3} // first 3 thumbs in priority
+                        loading={index < 3 ? 'eager' : 'lazy'}
                       />
                     </div>
                     <h2 className="text-center text-xl font-medium group-hover:opacity-80 transition-opacity duration-300">
@@ -101,7 +127,6 @@ export default function CollectionsPage() {
           </motion.div>
         </section>
       ))}
-
       {/* Scroll to top button */}
       <button
         onClick={scrollToTop}
@@ -117,7 +142,6 @@ export default function CollectionsPage() {
       >
         ↑
       </button>
-
       <Footer />
     </main>
   );

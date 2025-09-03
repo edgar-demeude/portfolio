@@ -1,28 +1,21 @@
 'use client';
+
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import useLenisScroll from '@/app/hooks/useLenisScroll';
 import PhotoGrid from '../../components/photoGrid';
 import Lightbox from '../../components/lightbox';
 import Footer from '@/app/components/footer';
-
-// Folder name -> display title
-function formatFolderName(folder: string) {
-  if (!folder) return '';
-  if (folder.toLowerCase().startsWith('ongoing')) {
-    // "ongoing_lyon" -> "Lyon"
-    return folder.replace(/^ongoing[_-]/i, '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-  }
-  // "23_japan23" or "2024_japan24" -> "Japan 23" / "Japan 24"
-  const withoutPrefix = folder.replace(/^\d+[_-]/, '');
-  const spaced = withoutPrefix.replace(/([a-zA-Z])(\d)/g, '$1 $2').replace(/_/g, ' ');
-  return spaced.replace(/\b\w/g, c => c.toUpperCase());
-}
+import { formatFolderName } from '@/app/utils/formatFolderName';
 
 type Collection = {
   folder: string;
   images: string[];
+  thumbs: string[];
 };
+
+// In-memory cache for collections
+let galleryCache: Record<string, Collection> = {};
 
 function GalleryContent() {
   const params = useSearchParams();
@@ -33,12 +26,20 @@ function GalleryContent() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    if (collectionName) {
+    if (!collectionName) return;
+
+    if (galleryCache[collectionName]) {
+      // use cached data
+      setCollection(galleryCache[collectionName]);
+    } else {
       fetch('/collections.json')
         .then((res) => res.json())
         .then((data: Collection[]) => {
           const found = data.find(c => c.folder === collectionName);
-          if (found) setCollection(found);
+          if (found) {
+            galleryCache[collectionName] = found; // save to cache
+            setCollection(found);
+          }
         });
     }
   }, [collectionName]);
@@ -50,7 +51,7 @@ function GalleryContent() {
   }, []);
 
   if (!collectionName) return <p className="text-center mt-10">No collection selected.</p>;
-  if (!collection) return <p className="text-center mt-10"></p>;
+  if (!collection) return <p className="text-center mt-10">Loading...</p>;
 
   return (
     <main className="min-h-screen px-2 sm:px-6 md:px-12 lg:px-24">
@@ -61,7 +62,7 @@ function GalleryContent() {
       </div>
 
       <PhotoGrid
-        photos={collection.images}
+        photos={collection.thumbs}
         onPhotoClick={setSelectedIndex}
         className=""
       />

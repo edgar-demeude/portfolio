@@ -1,7 +1,7 @@
 'use client';
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
-import Image from "next/image";
+import { motion } from 'framer-motion';
+import { useEffect, useState, useRef } from 'react';
+import Image from 'next/image';
 
 type LightboxProps = {
   photos: string[];
@@ -12,53 +12,51 @@ type LightboxProps = {
 };
 
 export default function Lightbox({ photos, index, onClose, onPrev, onNext }: LightboxProps) {
-  const [isVisible, setIsVisible] = useState(true);
   const [naturalSize, setNaturalSize] = useState<{ w: number; h: number } | null>(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [direction, setDirection] = useState(0); // swipe direction
+  const imgCache = useRef<Record<string, HTMLImageElement>>({});
 
-  // Swipe handling
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
+  // Preload surrounding images
+  useEffect(() => {
+    const preload = [
+      photos[(index - 1 + photos.length) % photos.length],
+      photos[(index + 1) % photos.length]
+    ];
+    preload.forEach(src => {
+      if (!imgCache.current[src]) {
+        const img = new window.Image();
+        img.src = src;
+        imgCache.current[src] = img;
+      }
+    });
+  }, [index, photos]);
+
+  useEffect(() => setNaturalSize(null), [index]);
+
+  const handlePrev = () => {
+  setDirection(-1);
+  onPrev();
+  };
+
+  const handleNext = () => {
+    setDirection(1);
+    onNext();
+  };
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") startClose();
-      if (e.key === "ArrowLeft") onPrev();
-      if (e.key === "ArrowRight") onNext();
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') handlePrev();
+      if (e.key === 'ArrowRight') handleNext();
     };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [onPrev, onNext]);
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
 
-  useEffect(() => setImageLoaded(false), [index]);
-
-  function startClose() {
-    setIsVisible(false);
-  }
-
-  // Swipe gestures
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-  const handleTouchEnd = () => {
-    if (touchStartX.current !== null && touchEndX.current !== null) {
-      const delta = touchEndX.current - touchStartX.current;
-      if (delta > 50) onPrev(); // swipe right
-      else if (delta < -50) onNext(); // swipe left
-    }
-    touchStartX.current = null;
-    touchEndX.current = null;
-  };
-
-  const aspectRatio = naturalSize ? naturalSize.w / naturalSize.h : 1;
   const maxWidth = window.innerWidth * 0.9;
   const maxHeight = window.innerHeight * 0.9;
+  const aspectRatio = naturalSize ? naturalSize.w / naturalSize.h : 1;
   let width: number, height: number;
-
   if (aspectRatio >= 1) {
     width = Math.min(maxWidth, maxHeight * aspectRatio);
     height = width / aspectRatio;
@@ -68,84 +66,57 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
   }
 
   return (
-    <AnimatePresence onExitComplete={() => { if (!isVisible) onClose(); }}>
-      {isVisible && (
-        <motion.div
-          key="overlay"
-          className="fixed inset-0 bg-black/97 flex items-center justify-center z-50 p-2 sm:p-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-        >
-          {/* Click outside to close */}
-          <div
-            className="absolute inset-0"
-            onClick={startClose}
-          />
+    <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-2 sm:p-8">
+      {/* Click outside */}
+      <div className="absolute inset-0" onClick={onClose} />
 
-          {/* Image container */}
-          <div
-            ref={containerRef}
-            className="relative flex items-center justify-center"
-            style={{ width, height, zIndex: 50 }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`image-wrapper-${photos[index]}`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: imageLoaded ? 1 : 0 }}
-                exit={{ opacity: 0, transition: { duration: 0.15 } }}
-                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                className="w-full h-full flex items-center justify-center"
-              >
-                <Image
-                  key={photos[index]}
-                  src={photos[index]}
-                  alt={`Image ${index}`}
-                  width={width}
-                  height={height}
-                  className="object-contain"
-                  onLoadingComplete={(img) => {
-                    setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight });
-                    setImageLoaded(true);
-                  }}
-                  priority
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
+      {/* Swipeable image */}
+      <motion.div
+        key={photos[index]}
+        initial={{ x: direction * 200 }}
+        animate={{ x: 0 }}
+        exit={{ x: -direction * 200 }}
+        transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+        className="relative flex items-center justify-center"
+        style={{ width, height }}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.15}
+        onDragEnd={(e, info) => {
+          if (info.offset.x > 50) handlePrev();
+          if (info.offset.x < -50) handleNext();
+        }}
+      >
+        <Image
+          src={photos[index]}
+          alt={`Image ${index}`}
+          width={width}
+          height={height}
+          className="object-contain"
+          onLoadingComplete={(img) => setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight })}
+          loading="eager"
+        />
+      </motion.div>
 
-          {/* Close button */}
-          <motion.button
-            onClick={startClose}
-            className="fixed top-4 right-4 sm:top-6 sm:right-8 text-white text-3xl sm:text-4xl p-2 sm:p-4 rounded-full hover:text-gray-300 transition-colors z-50"
-            aria-label="Close lightbox"
-          >
-            ✕
-          </motion.button>
-
-          {/* Navigation minimaliste */}
-          <motion.button
-            onClick={onPrev}
-            className="fixed top-1/2 left-2 sm:left-8 -translate-y-1/2 text-white text-4xl sm:text-6xl p-2 sm:p-6 rounded-full hover:text-gray-300 transition-colors z-50"
-            aria-label="Previous image"
-          >
-            ‹
-          </motion.button>
-
-          <motion.button
-            onClick={onNext}
-            className="fixed top-1/2 right-2 sm:right-8 -translate-y-1/2 text-white text-4xl sm:text-6xl p-2 sm:p-6 rounded-full hover:text-gray-300 transition-colors z-50"
-            aria-label="Next image"
-          >
-            ›
-          </motion.button>
-        </motion.div>
-      )}
-    </AnimatePresence>
+      {/* Controls */}
+      <button
+        onClick={handlePrev}
+        className="fixed top-1/2 left-2 -translate-y-1/2 text-white text-4xl sm:text-6xl p-2 rounded-full hover:text-gray-300 z-50"
+      >
+        ‹
+      </button>
+      <button
+        onClick={handleNext}
+        className="fixed top-1/2 right-2 -translate-y-1/2 text-white text-4xl sm:text-6xl p-2 rounded-full hover:text-gray-300 z-50"
+      >
+        ›
+      </button>
+      <button
+        onClick={onClose}
+        className="fixed top-4 right-4 text-white text-3xl sm:text-4xl p-2 rounded-full hover:text-gray-300 z-50"
+      >
+        ✕
+      </button>
+    </div>
   );
 }
