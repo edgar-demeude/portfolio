@@ -18,7 +18,7 @@ export default function HoverFillText({ children, className, active = false }: H
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+  }, [startHoverAnimation]);
 
   const currentTheme = mounted ? (theme === 'system' ? systemTheme : theme) : null;
 
@@ -34,7 +34,6 @@ export default function HoverFillText({ children, className, active = false }: H
     setBackgroundPos('0%');
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const el = ref.current;
     if (!el) return;

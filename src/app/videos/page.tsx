@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants, easeOut } from 'framer-motion';
 import Footer from '../components/footer';
 import useLenisScroll from '@/app/hooks/useLenisScroll';
+import Image from 'next/image';
 
 type Video = {
   title: string;
@@ -13,15 +14,15 @@ type Video = {
 };
 
 // Container variant for cascade animation
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
 // Each item fade-in + slight scale
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, scale: 0.97 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: easeOut } },
 };
 
 const videos: Video[] = [
@@ -123,9 +124,11 @@ export default function VideosPage() {
                   className="group cursor-pointer flex flex-col space-y-4"
                 >
                   <div className="overflow-hidden w-full aspect-[16/9] bg-neutral-900">
-                    <img
+                    <Image 
                       src={video.previewImage}
                       alt={`Preview of ${video.title}`}
+                      width={1200}
+                      height={800}
                       className="w-full h-full object-cover photo-hover"
                     />
                   </div>

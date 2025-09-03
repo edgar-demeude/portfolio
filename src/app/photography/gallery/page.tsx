@@ -15,7 +15,7 @@ type Collection = {
 };
 
 // In-memory cache for collections
-let galleryCache: Record<string, Collection> = {};
+const galleryCache: Record<string, Collection> = {};
 
 function GalleryContent() {
   const params = useSearchParams();
