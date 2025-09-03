@@ -4,6 +4,7 @@
     "title": "Japan 23",
     "year": "2023",
     "images": [
+      "/photos/2023_japan23/00_japan23.jpg",
       "/photos/2023_japan23/01_japan23.jpg",
       "/photos/2023_japan23/02_japan23.jpg",
       "/photos/2023_japan23/03_japan23.jpg",
@@ -11,7 +12,6 @@
       "/photos/2023_japan23/05_japan23.jpg",
       "/photos/2023_japan23/06_japan23.jpg",
       "/photos/2023_japan23/07_japan23.jpg",
-      "/photos/2023_japan23/08_japan23.jpg",
       "/photos/2023_japan23/09_japan23.jpg",
       "/photos/2023_japan23/10_japan23.jpg",
       "/photos/2023_japan23/11_japan23.jpg",
@@ -65,6 +65,7 @@
       "/photos/2023_japan23/59_japan23.jpg"
     ],
     "thumbs": [
+      "/photos/2023_japan23/thumbs/00_japan23.jpg",
       "/photos/2023_japan23/thumbs/01_japan23.jpg",
       "/photos/2023_japan23/thumbs/02_japan23.jpg",
       "/photos/2023_japan23/thumbs/03_japan23.jpg",
@@ -72,7 +73,6 @@
       "/photos/2023_japan23/thumbs/05_japan23.jpg",
       "/photos/2023_japan23/thumbs/06_japan23.jpg",
       "/photos/2023_japan23/thumbs/07_japan23.jpg",
-      "/photos/2023_japan23/thumbs/08_japan23.jpg",
       "/photos/2023_japan23/thumbs/09_japan23.jpg",
       "/photos/2023_japan23/thumbs/10_japan23.jpg",
       "/photos/2023_japan23/thumbs/11_japan23.jpg",
@@ -168,24 +168,24 @@
     "title": "Kamakura",
     "year": "2024",
     "images": [
+      "/photos/2024_kamakura/03_japan24.jpg",
       "/photos/2024_kamakura/DSCF4400_japan24.jpg",
       "/photos/2024_kamakura/DSCF4546_japan24.jpg",
       "/photos/2024_kamakura/DSCF4650_japan24.jpg",
       "/photos/2024_kamakura/DSCF4651_japan24.jpg",
       "/photos/2024_kamakura/DSCF4710_japan24.jpg",
-      "/photos/2024_kamakura/DSCF4776_japan24.jpg",
       "/photos/2024_kamakura/DSCF4895_japan24.jpg",
       "/photos/2024_kamakura/DSCF5022_japan24.jpg",
       "/photos/2024_kamakura/DSCF5027_japan24.jpg",
       "/photos/2024_kamakura/DSCF5044_japan24.jpg"
     ],
     "thumbs": [
+      "/photos/2024_kamakura/thumbs/03_japan24.jpg",
       "/photos/2024_kamakura/thumbs/DSCF4400_japan24.jpg",
       "/photos/2024_kamakura/thumbs/DSCF4546_japan24.jpg",
       "/photos/2024_kamakura/thumbs/DSCF4650_japan24.jpg",
       "/photos/2024_kamakura/thumbs/DSCF4651_japan24.jpg",
       "/photos/2024_kamakura/thumbs/DSCF4710_japan24.jpg",
-      "/photos/2024_kamakura/thumbs/DSCF4776_japan24.jpg",
       "/photos/2024_kamakura/thumbs/DSCF4895_japan24.jpg",
       "/photos/2024_kamakura/thumbs/DSCF5022_japan24.jpg",
       "/photos/2024_kamakura/thumbs/DSCF5027_japan24.jpg",
@@ -204,10 +204,14 @@
       "/photos/2024_magome_juku/DSCF8813_japan24.jpg",
       "/photos/2024_magome_juku/DSCF8833_japan24.jpg",
       "/photos/2024_magome_juku/DSCF8900_japan24.jpg",
+      "/photos/2024_magome_juku/DSCF8925_magome_juku.jpg",
       "/photos/2024_magome_juku/DSCF8963_japan24.jpg",
+      "/photos/2024_magome_juku/DSCF8970_magome_juku.jpg",
       "/photos/2024_magome_juku/DSCF9003_japan24.jpg",
       "/photos/2024_magome_juku/DSCF9023_japan24.jpg",
-      "/photos/2024_magome_juku/DSCF9055_japan24.jpg"
+      "/photos/2024_magome_juku/DSCF9044_magome_juku.jpg",
+      "/photos/2024_magome_juku/DSCF9055_japan24.jpg",
+      "/photos/2024_magome_juku/DSCF9084_magome_juku.jpg"
     ],
     "thumbs": [
       "/photos/2024_magome_juku/thumbs/03_japan24.jpg",
@@ -217,10 +221,14 @@
       "/photos/2024_magome_juku/thumbs/DSCF8813_japan24.jpg",
       "/photos/2024_magome_juku/thumbs/DSCF8833_japan24.jpg",
       "/photos/2024_magome_juku/thumbs/DSCF8900_japan24.jpg",
+      "/photos/2024_magome_juku/thumbs/DSCF8925_magome_juku.jpg",
       "/photos/2024_magome_juku/thumbs/DSCF8963_japan24.jpg",
+      "/photos/2024_magome_juku/thumbs/DSCF8970_magome_juku.jpg",
       "/photos/2024_magome_juku/thumbs/DSCF9003_japan24.jpg",
       "/photos/2024_magome_juku/thumbs/DSCF9023_japan24.jpg",
-      "/photos/2024_magome_juku/thumbs/DSCF9055_japan24.jpg"
+      "/photos/2024_magome_juku/thumbs/DSCF9044_magome_juku.jpg",
+      "/photos/2024_magome_juku/thumbs/DSCF9055_japan24.jpg",
+      "/photos/2024_magome_juku/thumbs/DSCF9084_magome_juku.jpg"
     ]
   },
   {
@@ -228,30 +236,30 @@
     "title": "Nikko",
     "year": "2024",
     "images": [
+      "/photos/2024_nikko/01_nikko.jpg",
+      "/photos/2024_nikko/02_nikko.jpg",
+      "/photos/2024_nikko/03_nikko.jpg",
       "/photos/2024_nikko/DSCF5120_japan24.jpg",
       "/photos/2024_nikko/DSCF5157_japan24.jpg",
       "/photos/2024_nikko/DSCF5164_japan24.jpg",
       "/photos/2024_nikko/DSCF5216_japan24.jpg",
       "/photos/2024_nikko/DSCF5279_japan24.jpg",
-      "/photos/2024_nikko/DSCF5295_japan24.jpg",
       "/photos/2024_nikko/DSCF5341_japan24.jpg",
-      "/photos/2024_nikko/DSCF5440_japan24.jpg",
       "/photos/2024_nikko/DSCF5444_japan24.jpg",
-      "/photos/2024_nikko/DSCF5447_japan24.jpg",
       "/photos/2024_nikko/DSCF5472_japan24.jpg",
       "/photos/2024_nikko/DSCF5524_japan24.jpg"
     ],
     "thumbs": [
+      "/photos/2024_nikko/thumbs/01_nikko.jpg",
+      "/photos/2024_nikko/thumbs/02_nikko.jpg",
+      "/photos/2024_nikko/thumbs/03_nikko.jpg",
       "/photos/2024_nikko/thumbs/DSCF5120_japan24.jpg",
       "/photos/2024_nikko/thumbs/DSCF5157_japan24.jpg",
       "/photos/2024_nikko/thumbs/DSCF5164_japan24.jpg",
       "/photos/2024_nikko/thumbs/DSCF5216_japan24.jpg",
       "/photos/2024_nikko/thumbs/DSCF5279_japan24.jpg",
-      "/photos/2024_nikko/thumbs/DSCF5295_japan24.jpg",
       "/photos/2024_nikko/thumbs/DSCF5341_japan24.jpg",
-      "/photos/2024_nikko/thumbs/DSCF5440_japan24.jpg",
       "/photos/2024_nikko/thumbs/DSCF5444_japan24.jpg",
-      "/photos/2024_nikko/thumbs/DSCF5447_japan24.jpg",
       "/photos/2024_nikko/thumbs/DSCF5472_japan24.jpg",
       "/photos/2024_nikko/thumbs/DSCF5524_japan24.jpg"
     ]
@@ -261,20 +269,28 @@
     "title": "Suwa Lake",
     "year": "2024",
     "images": [
+      "/photos/2024_suwa_lake/01_suwa_lake.jpg",
       "/photos/2024_suwa_lake/04_japan24.jpg",
       "/photos/2024_suwa_lake/DSCF9168_japan24.jpg",
       "/photos/2024_suwa_lake/DSCF9190_japan24.jpg",
+      "/photos/2024_suwa_lake/DSCF9243_suwa_lake.jpg",
       "/photos/2024_suwa_lake/DSCF9276_japan24.jpg",
-      "/photos/2024_suwa_lake/DSCF9575_japan24.jpg",
+      "/photos/2024_suwa_lake/DSCF9319_suwa_lake.jpg",
+      "/photos/2024_suwa_lake/DSCF9341_suwa_lake.jpg",
+      "/photos/2024_suwa_lake/DSCF9369_suwa_lake.jpg",
       "/photos/2024_suwa_lake/DSCF9582_japan24.jpg",
       "/photos/2024_suwa_lake/DSCF9617_japan24.jpg"
     ],
     "thumbs": [
+      "/photos/2024_suwa_lake/thumbs/01_suwa_lake.jpg",
       "/photos/2024_suwa_lake/thumbs/04_japan24.jpg",
       "/photos/2024_suwa_lake/thumbs/DSCF9168_japan24.jpg",
       "/photos/2024_suwa_lake/thumbs/DSCF9190_japan24.jpg",
+      "/photos/2024_suwa_lake/thumbs/DSCF9243_suwa_lake.jpg",
       "/photos/2024_suwa_lake/thumbs/DSCF9276_japan24.jpg",
-      "/photos/2024_suwa_lake/thumbs/DSCF9575_japan24.jpg",
+      "/photos/2024_suwa_lake/thumbs/DSCF9319_suwa_lake.jpg",
+      "/photos/2024_suwa_lake/thumbs/DSCF9341_suwa_lake.jpg",
+      "/photos/2024_suwa_lake/thumbs/DSCF9369_suwa_lake.jpg",
       "/photos/2024_suwa_lake/thumbs/DSCF9582_japan24.jpg",
       "/photos/2024_suwa_lake/thumbs/DSCF9617_japan24.jpg"
     ]
@@ -284,6 +300,8 @@
     "title": "Takayama",
     "year": "2024",
     "images": [
+      "/photos/2024_takayama/02_takayama.jpg",
+      "/photos/2024_takayama/03_takayama.jpg",
       "/photos/2024_takayama/DSCF5785_japan24.jpg",
       "/photos/2024_takayama/DSCF5787_japan24.jpg",
       "/photos/2024_takayama/DSCF5911_japan24.jpg",
@@ -303,14 +321,14 @@
       "/photos/2024_takayama/DSCF7009_japan24.jpg",
       "/photos/2024_takayama/DSCF7089_japan24.jpg",
       "/photos/2024_takayama/DSCF7182_japan24.jpg",
-      "/photos/2024_takayama/DSCF7226_japan24.jpg",
       "/photos/2024_takayama/DSCF7248_japan24.jpg",
-      "/photos/2024_takayama/DSCF7311_proc_japan24.jpg",
       "/photos/2024_takayama/DSCF7383_japan24.jpg",
       "/photos/2024_takayama/DSCF8304_japan24.jpg",
       "/photos/2024_takayama/DSCF8308_japan24.jpg"
     ],
     "thumbs": [
+      "/photos/2024_takayama/thumbs/02_takayama.jpg",
+      "/photos/2024_takayama/thumbs/03_takayama.jpg",
       "/photos/2024_takayama/thumbs/DSCF5785_japan24.jpg",
       "/photos/2024_takayama/thumbs/DSCF5787_japan24.jpg",
       "/photos/2024_takayama/thumbs/DSCF5911_japan24.jpg",
@@ -330,9 +348,7 @@
       "/photos/2024_takayama/thumbs/DSCF7009_japan24.jpg",
       "/photos/2024_takayama/thumbs/DSCF7089_japan24.jpg",
       "/photos/2024_takayama/thumbs/DSCF7182_japan24.jpg",
-      "/photos/2024_takayama/thumbs/DSCF7226_japan24.jpg",
       "/photos/2024_takayama/thumbs/DSCF7248_japan24.jpg",
-      "/photos/2024_takayama/thumbs/DSCF7311_proc_japan24.jpg",
       "/photos/2024_takayama/thumbs/DSCF7383_japan24.jpg",
       "/photos/2024_takayama/thumbs/DSCF8304_japan24.jpg",
       "/photos/2024_takayama/thumbs/DSCF8308_japan24.jpg"
@@ -343,8 +359,9 @@
     "title": "Tokyo 24",
     "year": "2024",
     "images": [
-      "/photos/2024_tokyo24/01.jpg",
-      "/photos/2024_tokyo24/DSCF0022_japan24.jpg",
+      "/photos/2024_tokyo24/01_tokyo24.jpg",
+      "/photos/2024_tokyo24/02_tokyo24.jpg",
+      "/photos/2024_tokyo24/03_tokyo24.jpg",
       "/photos/2024_tokyo24/DSCF0070_japan24.jpg",
       "/photos/2024_tokyo24/DSCF0140_japan24.jpg",
       "/photos/2024_tokyo24/DSCF0146_japan24.jpg",
@@ -370,12 +387,12 @@
       "/photos/2024_tokyo24/DSCF3670_japan24.jpg",
       "/photos/2024_tokyo24/DSCF3808_japan24.jpg",
       "/photos/2024_tokyo24/DSCF9665_japan24.jpg",
-      "/photos/2024_tokyo24/DSCF9854_japan24.jpg",
-      "/photos/2024_tokyo24/DSCF9937_japan24.jpg"
+      "/photos/2024_tokyo24/DSCF9854_japan24.jpg"
     ],
     "thumbs": [
-      "/photos/2024_tokyo24/thumbs/01.jpg",
-      "/photos/2024_tokyo24/thumbs/DSCF0022_japan24.jpg",
+      "/photos/2024_tokyo24/thumbs/01_tokyo24.jpg",
+      "/photos/2024_tokyo24/thumbs/02_tokyo24.jpg",
+      "/photos/2024_tokyo24/thumbs/03_tokyo24.jpg",
       "/photos/2024_tokyo24/thumbs/DSCF0070_japan24.jpg",
       "/photos/2024_tokyo24/thumbs/DSCF0140_japan24.jpg",
       "/photos/2024_tokyo24/thumbs/DSCF0146_japan24.jpg",
@@ -401,8 +418,7 @@
       "/photos/2024_tokyo24/thumbs/DSCF3670_japan24.jpg",
       "/photos/2024_tokyo24/thumbs/DSCF3808_japan24.jpg",
       "/photos/2024_tokyo24/thumbs/DSCF9665_japan24.jpg",
-      "/photos/2024_tokyo24/thumbs/DSCF9854_japan24.jpg",
-      "/photos/2024_tokyo24/thumbs/DSCF9937_japan24.jpg"
+      "/photos/2024_tokyo24/thumbs/DSCF9854_japan24.jpg"
     ]
   },
   {

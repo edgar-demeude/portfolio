@@ -55,11 +55,34 @@ function GalleryContent() {
 
   return (
     <main className="min-h-screen px-2 sm:px-6 md:px-12 lg:px-24">
-      <div className="flex-1 text-center mb-12">
-        <span className="text-2xl font-medium capitalize">
-          {formatFolderName(collection.folder)}
-        </span>
-      </div>
+      <div className="flex-1 text-center mb-12 relative">
+  {/* Collection title */}
+  <span className="text-2xl font-medium capitalize">
+    {formatFolderName(collection.folder)}
+  </span>
+
+{/* Back to collections button */}
+<button
+  onClick={() => window.location.href = '/photography'}
+  aria-label="Back to collections"
+  className={`
+    fixed bottom-6 right-14 z-50 
+    h-16 min-w-[180px] flex items-center justify-center gap-2
+    rounded-full bg-black/70 text-white backdrop-blur shadow-lg
+    transition-all duration-500 ease-in-out
+    hover:bg-black hover:scale-103 hover:min-w-[200px]
+    px-4
+  `}
+>
+  <span className="text-xl">←</span>
+  <span className="text-sm font-medium">Back to collections</span>
+</button>
+
+
+
+
+</div>
+
 
       <PhotoGrid
         photos={collection.thumbs}
