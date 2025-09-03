@@ -14,14 +14,18 @@ type LightboxProps = {
 export default function Lightbox({ photos, index, onClose, onPrev, onNext }: LightboxProps) {
   const [naturalSize, setNaturalSize] = useState<{ w: number; h: number } | null>(null);
   const imgCache = useRef<Record<string, HTMLImageElement>>({});
+  const [direction, setDirection] = useState(0);
 
   const handlePrev = useCallback(() => {
+    setDirection(-1);
     onPrev();
   }, [onPrev]);
 
   const handleNext = useCallback(() => {
+    setDirection(1);
     onNext();
   }, [onNext]);
+
 
   // Preload surrounding images
   useEffect(() => {
@@ -88,10 +92,10 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
       >
         <motion.div
           key={photos[index]}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          initial={{ x: direction * 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -direction * 100, opacity: 0 }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
           className="absolute inset-0 flex items-center justify-center"
         >
           <Image
@@ -100,7 +104,9 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
             width={width}
             height={height}
             className="object-contain"
-            onLoadingComplete={img => setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight })}
+            onLoadingComplete={(img) =>
+              setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight })
+            }
             loading="eager"
           />
         </motion.div>
