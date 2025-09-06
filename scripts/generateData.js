@@ -5,45 +5,45 @@ import sharp from "sharp";
 const photosDir = path.join(process.cwd(), "public", "photos");
 const outputDir = path.join(process.cwd(), "public");
 
-// Formats collection name (display)
-function formatCollectionName(folder) {
-  if (folder.toLowerCase().startsWith("ongoing")) {
-    return folder
-      .replace(/^ongoing[_-]/i, "")
-      .replace(/[-_]/g, " ")
-      .replace(/\b\w/g, (c) => c.toUpperCase());
-  } else {
-    const name = folder.replace(/^\d+[_-]/, "");
-    return name
-      .replace(/([a-zA-Z])(\d)/g, "$1 $2")
-      .replace(/[-_]/g, " ")
-      .replace(/\b\w/g, (c) => c.toUpperCase());
-  }
+/**
+ * Extract category, priority, and name from folder string
+ * Example: "japan_1_tokyo24" => { category: "Japan", priority: 1, name: "Tokyo 24" }
+ */
+function parseFolder(folder) {
+  const parts = folder.split("_");
+  const category = parts[0] ? capitalize(parts[0]) : "Misc";
+  const priority = parts[1] ? parseInt(parts[1], 10) : 99;
+  const name = parts.slice(2).join(" ") || folder;
+  return { category, priority, name: formatName(name) };
 }
 
-// Extract year
-function extractYear(folder) {
-  if (folder.toLowerCase().startsWith("ongoing")) return "Ongoing";
-  const match = folder.match(/^\d{4}/) || folder.match(/^\d{2}/);
-  return match ? match[0] : "Unknown";
+/** Capitalizes the first letter of a string */
+function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-// Ensure directory exists
+/** Format a folder name to readable title */
+function formatName(name) {
+  return name
+    .replace(/([a-zA-Z])(\d)/g, "$1 $2")
+    .replace(/[-_]/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/** Ensure a directory exists */
 function ensureDir(dir) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
 async function generate() {
-  const collectionsFolders = fs
+  const folders = fs
     .readdirSync(photosDir)
     .filter((f) => fs.statSync(path.join(photosDir, f)).isDirectory())
     .sort();
 
   const collections = [];
 
-  for (const folder of collectionsFolders) {
+  for (const folder of folders) {
     const folderPath = path.join(photosDir, folder);
     const thumbPath = path.join(folderPath, "thumbs");
 
@@ -60,10 +60,10 @@ async function generate() {
       const fullPath = path.join(folderPath, file);
       const thumbFile = path.join(thumbPath, file);
 
-      // Skip if thumbnail already exists
+      // Generate thumbnail if it doesn't exist
       if (!fs.existsSync(thumbFile)) {
         await sharp(fullPath)
-          .resize({ width: 1000 }) // bigger thumbnails
+          .resize({ width: 1000 })
           .jpeg({ quality: 80 })
           .toFile(thumbFile);
         console.log(`Generated thumb: ${thumbFile}`);
@@ -75,16 +75,24 @@ async function generate() {
       thumbs.push(`/photos/${folder}/thumbs/${file}`);
     }
 
+    const { category, priority, name } = parseFolder(folder);
+
     collections.push({
       folder,
-      title: formatCollectionName(folder),
-      year: extractYear(folder),
+      category,
+      priority,
+      title: name,
       images,
       thumbs,
     });
   }
 
-  // Generates the main JSON file
+  // Sort collections by priority then title
+  collections.sort((a, b) => {
+    if (a.priority !== b.priority) return a.priority - b.priority;
+    return a.title.localeCompare(b.title);
+  });
+
   fs.writeFileSync(
     path.join(outputDir, "collections.json"),
     JSON.stringify(collections, null, 2)

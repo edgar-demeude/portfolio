@@ -1,12 +1,24 @@
-// Folder name -> display title
-export function formatFolderName(folder: string) {
+// utils/formatFolderName.ts
+export function formatFolderName(folder: string): string {
   if (!folder) return '';
-  if (folder.toLowerCase().startsWith('ongoing')) {
-    // "ongoing_lyon" -> "Lyon"
-    return folder.replace(/^ongoing[_-]/i, '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+  // Supprimer préfixe numérique global (ex: "2024_") si nécessaire
+  const withoutGlobalPrefix = folder.replace(/^\d+[_-]/, '');
+
+  // Découper par underscore
+  const parts = withoutGlobalPrefix.split('_');
+
+  // Ignorer catégorie (parts[0]) et le chiffre suivant s'il y en a
+  let nameParts: string[];
+  if (parts.length > 2 && /^\d+$/.test(parts[1])) {
+    nameParts = parts.slice(2);
+  } else {
+    nameParts = parts.slice(1);
   }
-  // "23_japan23" or "2024_japan24" -> "Japan 23" / "Japan 24"
-  const withoutPrefix = folder.replace(/^\d+[_-]/, '');
-  const spaced = withoutPrefix.replace(/([a-zA-Z])(\d)/g, '$1 $2').replace(/_/g, ' ');
-  return spaced.replace(/\b\w/g, c => c.toUpperCase());
+
+  // Recomposer le nom et capitaliser
+  return nameParts
+    .join(' ')
+    .replace(/([a-zA-Z])(\d)/g, '$1 $2')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 }

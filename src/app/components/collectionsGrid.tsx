@@ -53,10 +53,14 @@ export default function CollectionsGrid<T>({
   });
 
   const sortedKeys = Object.keys(grouped).sort((a, b) => {
-    if (a.toLowerCase() === 'ongoing') return -1;
-    if (b.toLowerCase() === 'ongoing') return 1;
-    return isNaN(Number(b)) ? a.localeCompare(b) : Number(b) - Number(a);
-  });
+  const categoryPriority: { [key: string]: number } = { 
+    France: 1, 
+    Japan: 2, 
+    Italia: 3, 
+    Netherlands: 4 
+  };
+  return (categoryPriority[a] || 99) - (categoryPriority[b] || 99);
+});
 
   return (
     <main className="flex flex-col min-h-screen px-4 sm:px-6 md:px-12 lg:px-24">
