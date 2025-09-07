@@ -18,34 +18,41 @@ const ThemeBtn = () => {
     <button
       onClick={() => setTheme(currentTheme === 'dark' ? 'light' : 'dark')}
       aria-label="Toggle dark mode"
-      className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-70 transition-all duration-300"
+      className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-70 relative"
     >
-      {currentTheme === 'dark' ? (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 3v1m0 16v1m8.485-8.485h1M3 12H2m15.364 6.364l.707.707M6.343 6.343l-.707-.707m12.728 0l-.707-.707M6.343 17.657l-.707.707M12 7a5 5 0 100 10 5 5 0 000-10z"
-          />
-        </svg>
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          stroke="none"
-        >
-          <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
-        </svg>
-      )}
+      {/* Soleil */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className={`h-6 w-6 absolute transition-all duration-500 ${
+          currentTheme === 'dark'
+            ? 'opacity-100 scale-100 rotate-0'
+            : 'opacity-0 scale-75 rotate-90'
+        }`}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 3v1m0 16v1m8.485-8.485h1M3 12H2m15.364 6.364l.707.707M6.343 6.343l-.707-.707m12.728 0l-.707-.707M6.343 17.657l-.707.707M12 7a5 5 0 100 10 5 5 0 000-10z"
+        />
+      </svg>
+
+      {/* Lune */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className={`h-6 w-6 absolute transition-all duration-500 ${
+          currentTheme === 'light'
+            ? 'opacity-100 scale-100 rotate-0'
+            : 'opacity-0 scale-75 -rotate-90'
+        }`}
+        fill="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
+      </svg>
     </button>
   )
 }

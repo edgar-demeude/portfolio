@@ -5,7 +5,6 @@ import { useEffect, useState, Suspense } from 'react';
 import useLenisScroll from '@/app/hooks/useLenisScroll';
 import PhotoGrid from '../../components/photoGrid';
 import Lightbox from '../../components/lightbox';
-import Footer from '@/app/components/footer';
 import { formatFolderName } from '@/app/utils/formatFolderName';
 
 type Collection = {
@@ -112,8 +111,6 @@ function GalleryContent() {
       >
         ↑
       </button>
-
-      <Footer />
     </main>
   );
 }
