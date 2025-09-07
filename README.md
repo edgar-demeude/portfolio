@@ -4,13 +4,18 @@ This project is a **personal portfolio website** showcasing my work in research,
 
 ## Features
 
-- **Research Section** – Displays my projects, papers, or articles with clean layout.
+- **Research Section** – Displays my projects, papers, or articles with a clean layout.
 - **Photography Section** – Shows photo collections, organized by year or category, with a responsive grid, hover effects, and a lightbox for viewing full images.
 - **Videos Section** – Presents video content categorized by instruments or types (e.g., Drums, Piano), with thumbnails linking directly to videos.
 - **Music Section** – A dedicated section for music projects.
-- **Smooth Animations** – Cascade animation for galleries and smooth scroll interactions across the site.
-- **Responsive Design** – Fully responsive, optimized for mobile, tablet, and desktop.
-- **Dark Mode Support** – Optional dark theme toggle.
+- **About Section** – Includes biography, description of work, and links to social media (YouTube, Instagram).
+- **Smooth Animations** – Cascade animation for galleries, smooth scroll interactions across the site, and animated dropdowns for language and projects.
+- **Responsive Design** – Fully responsive, optimized for mobile, tablet, and desktop, with a custom breakpoint for the mobile menu (≤1050px).
+- **Dark Mode Support** – Optional dark theme toggle with seamless vertical alignment for icons and text.
+- **Language Selector** – Dropdown menu for switching between English, French, and Japanese.
+- **Social Links Section** – Added at the end of About page, links to YouTube and Instagram, with hover animations and scaling effects.
+- **Mobile-Friendly Navbar** – Fully functional burger menu with project submenu, dynamic opening/closing animations.
+
 
 ## Tech Stack
 
