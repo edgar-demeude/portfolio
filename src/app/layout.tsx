@@ -1,4 +1,3 @@
-// app/layout.tsx (server component)
 import type { Metadata } from "next";
 import { Baloo_Tamma_2 } from "next/font/google";
 import "./globals.css";

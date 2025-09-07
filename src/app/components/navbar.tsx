@@ -7,6 +7,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { translations } from '../../../translations';
+import { useLanguage } from './languageContext';
+import LanguageBtn from './languageBtn';
 
 const SCROLL_THRESHOLD = 50;
 
@@ -16,6 +19,7 @@ export default function Navbar() {
   const [isProjectsOpen, setIsProjectsOpen] = useState(false);
   const ticking = useRef(false);
   const pathname = usePathname();
+  const { language } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +35,7 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
 
   return (
     <header
@@ -52,32 +57,42 @@ export default function Navbar() {
       </Link>
 
       {/* Desktop nav */}
-      <nav className="hidden md:flex flex-1 justify-end items-center space-x-6">
+      <nav className="hidden [@media(min-width:1050px)]:flex flex-1 justify-end items-center space-x-6">
         <Link href="/research" className={pathname.startsWith('/research') ? 'font-semibold' : ''}>
-          <HoverFillText active={pathname.startsWith('/research')}>Research</HoverFillText>
+          <HoverFillText active={pathname.startsWith('/research')}>
+            {translations[language].research}
+          </HoverFillText>
         </Link>
         <Link href="/photography" className={pathname.startsWith('/photography') ? 'font-semibold' : ''}>
-          <HoverFillText active={pathname.startsWith('/photography')}>Photography</HoverFillText>
+          <HoverFillText active={pathname.startsWith('/photography')}>
+            {translations[language].photography}
+          </HoverFillText>
         </Link>
         <Link href="/videos" className={pathname.startsWith('/videos') ? 'font-semibold' : ''}>
-          <HoverFillText active={pathname.startsWith('/videos')}>Videos</HoverFillText>
+          <HoverFillText active={pathname.startsWith('/videos')}>
+            {translations[language].videos}
+          </HoverFillText>
         </Link>
         <Link href="/music" className={pathname.startsWith('/music') ? 'font-semibold' : ''}>
-          <HoverFillText active={pathname.startsWith('/music')}>Music</HoverFillText>
+          <HoverFillText active={pathname.startsWith('/music')}>
+            {translations[language].music}
+          </HoverFillText>
         </Link>
         <Link href="/about" className={pathname.startsWith('/about') ? 'font-semibold' : ''}>
-          <HoverFillText active={pathname.startsWith('/about')}>About</HoverFillText>
+          <HoverFillText active={pathname.startsWith('/about')}>
+            {translations[language].about}
+          </HoverFillText>
         </Link>
 
-        {/* Language & Theme */}
-        {/* <button aria-label="Change language" className="w-10 h-10 rounded-full flex items-center justify-center hover:opacity-70 transition-all duration-300">
-          En
-        </button> */}
-        <ThemeBtn />
+        <div className="flex items-center space-x-4">
+          <LanguageBtn />
+          <ThemeBtn />
+        </div>
       </nav>
 
       {/* Mobile burger */}
-      <div className="md:hidden flex items-center space-x-2">
+      <div className="flex items-center space-x-2 [@media(min-width:1050px)]:hidden">
+        <LanguageBtn />
         <ThemeBtn />
         <button className="p-2" onClick={() => setIsOpen(prev => !prev)} aria-label="Toggle menu">
           {isOpen ? <X size={28} /> : <Menu size={28} />}

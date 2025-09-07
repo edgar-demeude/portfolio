@@ -2,7 +2,6 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { motion, Variants } from 'framer-motion';
 import useLenisScroll from '@/app/hooks/useLenisScroll';
-import Footer from './footer';
 
 type GroupedGridProps<T> = {
   title: string;
@@ -114,8 +113,6 @@ export default function CollectionsGrid<T>({
       >
         ↑
       </button>
-
-      <Footer />
     </main>
   );
 }
