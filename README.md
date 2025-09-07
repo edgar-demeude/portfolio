@@ -61,4 +61,4 @@ Check the live site here: [https://edgar-demeude.vercel.app/](https://edgar-deme
 
 ## License
 
-This project is **public**, for sharing and reference on my CV. Please do not use or copy the full code without permission.
+This project is **public**, for sharing and reference on my CV. The project is licensed under the MIT License – see the [LICENSE](./LICENSE) file for details.
