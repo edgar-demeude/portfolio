@@ -5,7 +5,7 @@ import ThemeBtn from './themeBtn';
 import HoverFillText from './hoverFillText';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { translations } from '../../../translations';
 import { useLanguage } from './languageContext';
@@ -16,7 +16,6 @@ const SCROLL_THRESHOLD = 50;
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
   const ticking = useRef(false);
   const pathname = usePathname();
   const { language } = useLanguage();
@@ -101,58 +100,59 @@ export default function Navbar() {
 
       {/* Mobile full-screen menu */}
       <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            key="mobile-menu"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center text-3xl space-y-6"
+  {isOpen && (
+    <motion.div
+      key="mobile-menu"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center text-3xl space-y-8"
+      style={{
+        background: 'var(--background)',
+        color: 'var(--foreground)',
+      }}
+    >
+      {/* Close button */}
+      <button
+        className="absolute top-6 right-6 p-2"
+        onClick={() => setIsOpen(false)}
+        aria-label="Close menu"
+      >
+        <X size={32} />
+      </button>
+
+      {/* Links with smooth stagger */}
+      {[
+        // { href: '/', label: 'Home' },
+        { href: '/research', label: 'Research' },
+        { href: '/photography', label: 'Photography' },
+        { href: '/videos', label: 'Videos' },
+        { href: '/music', label: 'Music' },
+        { href: '/about', label: 'About' },
+      ].map((item, i) => (
+        <motion.div
+          key={item.href}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.3, delay: i * 0.05 }}
+        >
+          <Link
+            href={item.href}
+            onClick={() => setIsOpen(false)}
+            className="relative group"
           >
-            {/* Close button */}
-            <button
-              className="absolute top-6 right-6 p-2 text-white"
-              onClick={() => setIsOpen(false)}
-              aria-label="Close menu"
-            >
-              <X size={32} />
-            </button>
+            <span className="transition-colors">{item.label}</span>
+            {/* Subtle underline animation */}
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full" />
+          </Link>
+        </motion.div>
+      ))}
+    </motion.div>
+  )}
+</AnimatePresence>
 
-            <Link href="/" onClick={() => setIsOpen(false)} className="py-3 text-white">Home</Link>
-            <Link href="/research" onClick={() => setIsOpen(false)} className="py-3 text-white">Research</Link>
-
-            {/* Projects submenu */}
-            <div className="w-full flex flex-col items-center">
-              <button
-                className="flex items-center space-x-2 py-3 font-medium text-white"
-                onClick={() => setIsProjectsOpen(prev => !prev)}
-              >
-                <span>Projects</span>
-                {isProjectsOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-              </button>
-              <AnimatePresence>
-                {isProjectsOpen && (
-                  <motion.div
-                    key="projects-submenu"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex flex-col items-center mt-3 space-y-3 pl-6 border-l border-white"
-                  >
-                    <Link href="/photography" onClick={() => setIsOpen(false)} className="text-white">Photography</Link>
-                    <Link href="/videos" onClick={() => setIsOpen(false)} className="text-white">Videos</Link>
-                    <Link href="/music" onClick={() => setIsOpen(false)} className="text-white">Music</Link>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            <Link href="/about" onClick={() => setIsOpen(false)} className="py-3 text-white">About</Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   );
 }
