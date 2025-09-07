@@ -1,6 +1,8 @@
 'use client';
 import Image from 'next/image';
 import CollectionsGrid from '../components/collectionsGrid';
+import { useLanguage } from '../components/languageContext';
+import { translations } from '../../../translations';
 
 type Video = {
   title: string;
@@ -79,11 +81,22 @@ const videos: Video[] = [
 ];
 
 export default function VideosPage() {
+  const { language } = useLanguage();
+
+  const translateCategory = (category: string) => {
+    const map: Record<string, string> = {
+      Drums: translations[language].drums ?? 'Drums',
+      Guitar: translations[language].guitar ?? 'Guitar',
+      Piano: translations[language].piano ?? 'Piano',
+    };
+    return map[category] || category;
+  };
+
   return (
     <CollectionsGrid
-      title="Videos"
+      title={translations[language].videos}
       data={videos}
-      groupBy={(v) => v.category}
+      groupBy={(v) => translateCategory(v.category)}
       renderItem={(video) => (
         <a
           href={video.url}

@@ -1,6 +1,8 @@
 'use client';
 import Image from 'next/image';
 import CollectionsGrid from '../components/collectionsGrid';
+import { useLanguage } from '../components/languageContext';
+import { translations } from '../../../translations';
 
 type Video = {
   title: string;
@@ -16,7 +18,6 @@ const videos: Video[] = [
     previewImage: '/thumbnails/finding.jpg',
     category: 'Shortfilms',
   },
-  
   {
     title: 'Solitude',
     url: 'https://youtu.be/lK49cEUyGBs?si=sUJh4cmwhnFJaBla',
@@ -56,11 +57,22 @@ const videos: Video[] = [
 ];
 
 export default function VideosPage() {
+  const { language } = useLanguage();
+
+  const translateCategory = (category: string) => {
+    const catMap: Record<string, string> = {
+      'Shortfilms': translations[language].shortfilms ?? 'Shortfilms',
+      'Moving postcards': translations[language].moving_postcards ?? 'Moving postcards',
+      'Documentaries': translations[language].documentaries ?? 'Documentaries',
+    };
+    return catMap[category] || category;
+  };
+
   return (
     <CollectionsGrid
-      title="Videos"
+      title={translations[language].videos}
       data={videos}
-      groupBy={(v) => v.category}
+      groupBy={(v) => translateCategory(v.category)}
       renderItem={(video) => (
         <a
           href={video.url}

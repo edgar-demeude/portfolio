@@ -6,8 +6,26 @@ export const translations = {
     videos: "Videos",
     music: "Music",
     about: "About",
+    about_website_title: "About this website",
     projects: "Projects",
     links: "Links",
+    social_media: "Social media",
+
+    research_headline: `I am deeply interested in AI alignment, security, and the ethical development of emerging technologies. My long-term goal is to contribute to research that ensures technological progress remains aligned with human values.`,
+    research_temporary: `This page will gradually showcase my research projects. For now, you can connect with me or explore my work through the links below.`,
+
+    france: `France`,
+    japan: `Japan`,
+    Italia: `Italy`,
+    Netherlands: `Netherlands`,
+
+    shortfilms: "Short films",
+    moving_postcards: "Moving postcards",
+    documentaries: "Documentaries",
+
+    drums: "Drums",
+    piano: "Piano",
+    guitar: "Guitar",
 
     about_photography: `I tend to follow light. 
 Sometimes, it takes me exactly where I expect. Other times, it surprises me with something far more interesting than I could have planned.
@@ -21,7 +39,14 @@ ethical and aligned with human values and morals.`,
     about_music: `I started as a drummer, then moved to piano, and later to guitar.
 Each instrument opened a different perspective, and I enjoy exploring both the similarities and differences between them.
 I am especially drawn to technically challenging pieces, with Polyphia being one of my main inspirations.`,
+    about_website: `This website was entirely hand-coded from scratch using Next.js and Tailwind CSS.
+The source code is available on GitHub, you can check it here :`,
 
+    all_rights_reserved: 'All rights reserved',
+    legal_notice: 'Legal notice',
+    legal_notice_text_1: 'All photographs displayed on this website are the exclusive property of ',
+    legal_notice_text_2: 'Any reproduction, modification, or distribution, even partial, is strictly prohibited without prior written permission.',
+    legal_notice_contact: 'For any inquiries, please contact:',
   },
   fr: {
     home: "Accueil",
@@ -30,8 +55,26 @@ I am especially drawn to technically challenging pieces, with Polyphia being one
     videos: "Vidéos",
     music: "Musique",
     about: "À propos",
+    about_website_title: "À propos de ce site",
     projects: "Projets",
     links: "Liens",
+    social_media: "Réseaux sociaux",
+
+    research_headline: `Je m'intéresse profondément à l'alignement de l'IA, à la sécurité et au développement éthique des technologies émergentes. Mon objectif à long terme est d'aporter ma contribution à la recherche visant à ce que le progrès technologique reste aligné avec les valeurs humaines.`,
+    research_temporary: `Cette page présentera progressivement mes projets de recherche. Pour l'instant, vous pouvez me contacter ou explorer mon travail via les liens ci-dessous.`,
+
+    france: `France`,
+    japan: `Japon`,
+    Italia: `Italie`,
+    Netherlands: `Pays-Bas`,
+
+    shortfilms: "Courts-métrages",
+    moving_postcards: "Vidéos courtes",
+    documentaries: "Vidéos longues",
+
+    drums: "Batterie",
+    piano: "Piano",
+    guitar: "Guitare",
 
     about_photography: `Je me concentre principalement sur la lumière. 
 Parfois, elle me mène là où je l’attends. D’autres fois, elle me surprend avec des choses bien plus intéressantes que ce que j’avais imaginé.
@@ -43,7 +86,14 @@ Je pense qu'il est crucial de se pencher sur ces problématiques grandissantes p
     about_music: `J'ai commencé par apprendre la batterie, puis le piano, et enfin la guitare.
 Chaque instrument m'a fait découvrir une perspective différente, et j'aime explorer les similarités et différences entre chacun.
 Je suis particulièrement attiré par des morceaux assez techniques, avec Polyphia comme une de mes principales inspirations.`,
+    about_website: `Ce site a été entièrement codé à partir de zéro en utilisant Next.js et Tailwind CSS.
+Le code source est disponible sur GitHub, vous pouvez le consulter ici :`,
 
+    all_rights_reserved: 'Tous droits réservés',
+    legal_notice: 'Mentions légales',
+    legal_notice_text_1: 'Toutes les photographies présentées sur ce site sont la propriété exclusive de ',
+    legal_notice_text_2: 'Toute reproduction, modification ou diffusion, même partielle, est strictement interdite sans autorisation écrite préalable.',
+    legal_notice_contact: 'Pour toute demande, veuillez contacter :',
   },
   jp: {
     home: "ホーム",
@@ -52,8 +102,26 @@ Je suis particulièrement attiré par des morceaux assez techniques, avec Polyph
     videos: "動画",
     music: "音楽",
     about: "私について",
+    about_website_title: "このサイトについて",
     projects: "プロジェクト",
     links: "リンク",
+    social_media: "ソーシャルメディア",
+
+    research_headline: `私はAIの整合性、安全性、そして新興技術の倫理的な開発に深い関心を持っています。私の長期的な目標は、技術の進歩が人間の価値観と一致し続けることを保証する研究に貢献することです。`,
+    research_temporary: `このページでは、私の研究プロジェクトを徐々に紹介していきます。今のところ、以下のリンクから私とつながるか、私の仕事を探索できます。`,
+
+    france: `フランス`,
+    japan: `日本`,
+    Italia: `イタリア`,
+    Netherlands: `オランダ`,
+
+    shortfilms: "短編映画",
+    moving_postcards: "ショートビデオ",
+    documentaries: "ドキュメンタリー",
+
+    drums: "ドラム",
+    piano: "ピアノ",
+    guitar: "ギター",
 
     about_photography: `私は光を追いかける興味があります。
 時には、期待通りの場所に正確に導かれます。他の時には、計画した以上に興味深い何かで私を驚かせます。
@@ -66,6 +134,13 @@ Je suis particulièrement attiré par des morceaux assez techniques, avec Polyph
     about_music: `私はドラマーとして始め、次にピアノ、そしてギターに移りました。
 各楽器は異なる視点を開き、類似点と相違点の両方を探求するのが楽しいです。
 特に技術的に挑戦的な曲に惹かれ、Polyphiaは私の主なインスピレーションの一つです。`,
+    about_website: `このウェブサイトは、Next.jsとTailwind CSSを使用して完全にゼロから手作業でコーディングされました。
+ソースコードはGitHubで利用可能です、こちらで確認できます：`,
 
+    all_rights_reserved: '全著作権所有',
+    legal_notice: '法的通知',
+    legal_notice_text_1: 'このウェブサイトに表示されているすべての写真は、の独占的な財産です ',
+    legal_notice_text_2: '事前の書面による許可なしに、部分的であれ全体であれ、複製、変更、または配布することは厳しく禁止されています。',
+    legal_notice_contact: 'お問い合わせは、以下までご連絡ください：',
   },
 };

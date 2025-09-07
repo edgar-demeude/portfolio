@@ -6,6 +6,8 @@ import useLenisScroll from '../hooks/useLenisScroll';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Github, Linkedin, FileText } from 'lucide-react';
+import { translations } from '../../../translations';
+import { useLanguage } from '../components/languageContext';
 
 const containerVariants: Variants = {
   hidden: {},
@@ -24,6 +26,7 @@ const itemVariants: Variants = {
 export default function ResearchPage() {
   const { scrollToTop } = useLenisScroll();
   const [showScrollTop, setShowScrollTop] = useState(false);
+    const { language } = useLanguage();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,14 +42,14 @@ export default function ResearchPage() {
     <main className="flex flex-col min-h-screen px-4 sm:px-6 md:px-12 lg:px-24">
       {/* Page Title */}
       <div className="text-center mb-12">
-        <span className="text-2xl font-medium capitalize">Research</span>
+        <span className="text-2xl font-medium capitalize">{translations[language].research}</span>
       </div>
 
       {/* Section: About Research */}
       <section className="mb-16 sm:mb-20 md:mb-24">
         <div className="flex items-center mb-8 sm:mb-10">
           <span className="text-base sm:text-sm italic pr-4 whitespace-nowrap">
-            About
+            {translations[language].about}
           </span>
           <div className="flex-1 thin-separator" />
         </div>
@@ -60,7 +63,7 @@ export default function ResearchPage() {
           {/* Image */}
           <motion.div variants={itemVariants} className="w-full overflow-hidden">
             <Image
-              src="/thumbnails/research_4.jpg" // tu peux changer ce chemin
+              src="/thumbnails/research_4.jpg"
               alt="Research"
               width={1200}
               height={800}
@@ -73,16 +76,10 @@ export default function ResearchPage() {
 
           {/* Text */}
           <motion.div className="w-full max-w-3xl mx-auto" variants={itemVariants}>
-            <p className="text-lg leading-loose text-justify">
-              I am deeply interested in <strong>AI alignment</strong>, 
-              <strong> security</strong>, and the <strong>ethical </strong> 
-              development of emerging technologies. My long-term goal is to contribute 
-              to research that ensures technological progress remains aligned 
-              with human values.  
+            <p className="text-lg leading-loose text-justify whitespace-pre-line">
+              {translations[language].research_headline}
               <br /><br />
-              This page will gradually showcase my research projects. 
-              For now, you can connect with me or explore my work through 
-              the links below.
+              {translations[language].research_temporary}
             </p>
           </motion.div>
         </motion.div>
@@ -92,7 +89,7 @@ export default function ResearchPage() {
       <section className="mb-16 sm:mb-20 md:mb-24">
         <div className="flex items-center mb-8 sm:mb-10">
           <span className="text-base sm:text-sm italic pr-4 whitespace-nowrap">
-            Links
+            {translations[language].links}
           </span>
           <div className="flex-1 thin-separator" />
         </div>
@@ -142,7 +139,7 @@ export default function ResearchPage() {
       <section className="mb-16 sm:mb-20 md:mb-24">
         <div className="flex items-center mb-8 sm:mb-10">
           <span className="text-base sm:text-sm italic pr-4 whitespace-nowrap">
-            Projects
+            {translations[language].projects}
           </span>
           <div className="flex-1 thin-separator" />
         </div>

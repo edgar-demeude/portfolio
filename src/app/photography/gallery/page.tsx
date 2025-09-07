@@ -65,7 +65,7 @@ function GalleryContent() {
     onClick={() => window.location.href = '/photography'}
     aria-label="Back to collections"
     className={`
-      fixed bottom-6 right-14 z-50 
+      hidden sm:flex fixed bottom-6 right-14 z-50 
       h-16 min-w-[180px] flex items-center justify-center gap-2
       rounded-full bg-black/70 text-white backdrop-blur shadow-lg
       transition-all duration-500 ease-in-out

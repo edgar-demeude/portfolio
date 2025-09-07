@@ -6,7 +6,7 @@ import Image from 'next/image';
 import useLenisScroll from '../hooks/useLenisScroll';
 import { translations } from '../../../translations';
 import { useLanguage } from '../components/languageContext';
-import { SiYoutube, SiInstagram } from 'react-icons/si';
+import { SiYoutube, SiInstagram, SiGithub } from 'react-icons/si';
 
 const containerVariants: Variants = {
   hidden: {},
@@ -104,11 +104,43 @@ export default function AboutPage() {
         </section>
       ))}
 
+      {/* About the site */}
+      <section className="mb-12 sm:mb-16 md:mb-20">
+        <div className="flex items-center mb-8 sm:mb-10">
+          <span className="text-base sm:text-sm italic pr-4 whitespace-nowrap">
+            {translations[language].about_website_title}
+          </span>
+          <div className="flex-1 thin-separator" />
+        </div>
+
+        <motion.div
+          className="max-w-3xl mx-auto text-center flex flex-col items-center gap-4"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.p variants={itemVariants} className="text-lg leading-loose mb-4 whitespace-pre-line">
+            {translations[language].about_website}
+          </motion.p>
+
+          <motion.a
+            href="https://github.com/edgar-demeude/portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center gap-2 transform transition-transform duration-500 ease-in-out hover:scale-110"
+            variants={itemVariants}
+          >
+            <SiGithub className="w-8 h-8" />
+            <span className="text-sm">{language === 'fr' ? 'GitHub' : 'GitHub'}</span>
+          </motion.a>
+        </motion.div>
+      </section>
+
       {/* Social links section */}
       <section className="mb-16 sm:mb-20 md:mb-24">
         <div className="flex items-center mb-8 sm:mb-10">
           <span className="text-base sm:text-sm italic pr-4 whitespace-nowrap">
-            {translations[language].links}
+            {translations[language].social_media}
           </span>
           <div className="flex-1 thin-separator" />
         </div>

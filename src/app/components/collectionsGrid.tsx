@@ -2,6 +2,8 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { motion, Variants } from 'framer-motion';
 import useLenisScroll from '@/app/hooks/useLenisScroll';
+import { useLanguage } from './languageContext';
+import { translations } from '../../../translations';
 
 type GroupedGridProps<T> = {
   title: string;
@@ -26,6 +28,17 @@ const itemVariants: Variants = {
   },
 };
 
+function translateCountry(key: string, language: keyof typeof translations) {
+  const mapping: Record<string, string> = {
+    france: translations[language].france,
+    japan: translations[language].japan,
+    italia: translations[language].Italia,
+    netherlands: translations[language].Netherlands,
+  };
+
+  return mapping[key.toLowerCase()] || key;
+}
+
 export default function CollectionsGrid<T>({
   title,
   data,
@@ -35,6 +48,7 @@ export default function CollectionsGrid<T>({
 }: GroupedGridProps<T>) {
   const { scrollToTop } = useLenisScroll();
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const { language } = useLanguage();
 
   // Scroll-to-top button visibility
   useEffect(() => {
@@ -52,14 +66,14 @@ export default function CollectionsGrid<T>({
   });
 
   const sortedKeys = Object.keys(grouped).sort((a, b) => {
-  const categoryPriority: { [key: string]: number } = { 
-    France: 1, 
-    Japan: 2, 
-    Italia: 3, 
-    Netherlands: 4 
-  };
-  return (categoryPriority[a] || 99) - (categoryPriority[b] || 99);
-});
+    const categoryPriority: { [key: string]: number } = {
+      France: 1,
+      Japan: 2,
+      Italia: 3,
+      Netherlands: 4,
+    };
+    return (categoryPriority[a] || 99) - (categoryPriority[b] || 99);
+  });
 
   return (
     <main className="flex flex-col min-h-screen px-4 sm:px-6 md:px-12 lg:px-24">
@@ -68,35 +82,40 @@ export default function CollectionsGrid<T>({
         <span className="text-2xl font-medium capitalize">{title}</span>
       </div>
 
-      {sortedKeys.map((key) => (
-        <section key={key} className="mb-16 sm:mb-20 md:mb-24">
-          {/* Group label */}
-          <div className="flex items-center mb-8 sm:mb-10">
-            {renderGroupLabel ? (
-              renderGroupLabel(key)
-            ) : (
-              <>
-                <span className="text-base sm:text-sm italic pr-4 whitespace-nowrap">{key}</span>
-                <div className="flex-1 thin-separator" />
-              </>
-            )}
-          </div>
+      {sortedKeys.map((key) => {
+        const translatedKey = translateCountry(key, language);
+        return (
+          <section key={key} className="mb-16 sm:mb-20 md:mb-24">
+            {/* Group label */}
+            <div className="flex items-center mb-8 sm:mb-10">
+              {renderGroupLabel ? (
+                renderGroupLabel(key)
+              ) : (
+                <>
+                  <span className="text-base sm:text-sm italic pr-4 whitespace-nowrap">
+                    {translatedKey}
+                  </span>
+                  <div className="flex-1 thin-separator" />
+                </>
+              )}
+            </div>
 
-          {/* Items grid */}
-          <motion.div
-            className="max-w-[1800px] mx-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {grouped[key].map((item, index) => (
-              <motion.div key={index} variants={itemVariants} className="w-full">
-                {renderItem(item, index)}
-              </motion.div>
-            ))}
-          </motion.div>
-        </section>
-      ))}
+            {/* Items grid */}
+            <motion.div
+              className="max-w-[1800px] mx-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {grouped[key].map((item, index) => (
+                <motion.div key={index} variants={itemVariants} className="w-full">
+                  {renderItem(item, index)}
+                </motion.div>
+              ))}
+            </motion.div>
+          </section>
+        );
+      })}
 
       {/* Scroll to top button */}
       <button
