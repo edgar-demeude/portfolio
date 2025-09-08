@@ -89,6 +89,8 @@ Je suis particulièrement attiré par des morceaux assez techniques, avec Polyph
     about_website: `Ce site a été entièrement codé à partir de zéro en utilisant Next.js et Tailwind CSS.
 Le code source est disponible sur GitHub, vous pouvez le consulter ici :`,
 
+    about_email_subject: "Demande depuis le site personnel",
+
     all_rights_reserved: 'Tous droits réservés',
     legal_notice: 'Mentions légales',
     legal_notice_text_1: 'Toutes les photographies présentées sur ce site sont la propriété exclusive de ',
