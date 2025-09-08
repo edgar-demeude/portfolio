@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 
@@ -9,9 +9,10 @@ type LightboxProps = {
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
+  isOpen: boolean;
 };
 
-export default function Lightbox({ photos, index, onClose, onPrev, onNext }: LightboxProps) {
+export default function Lightbox({ photos, index, onClose, onPrev, onNext, isOpen }: LightboxProps) {
   const [naturalSize, setNaturalSize] = useState<{ w: number; h: number } | null>(null);
   const imgCache = useRef<Record<string, HTMLImageElement>>({});
   const [direction, setDirection] = useState(0);
@@ -26,8 +27,7 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
     onNext();
   }, [onNext]);
 
-
-  // Preload surrounding images
+  // Preloading
   useEffect(() => {
     const preload = [
       photos[(index - 1 + photos.length) % photos.length],
@@ -67,70 +67,80 @@ export default function Lightbox({ photos, index, onClose, onPrev, onNext }: Lig
   }
 
   return (
-    <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-2 sm:p-8">
-      {/* Click outside */}
-      <div className="absolute inset-0" onClick={onClose} />
-
-      {/* Swipeable image */}
-      <motion.div
-        animate={{ x: 0, opacity: 1 }}
-        initial={false}
-        transition={{
-          type: 'tween',
-          ease: 'easeInOut',
-          duration: 0.35,
-        }}
-        className="relative flex items-center justify-center"
-        style={{ width, height }}
-        drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.1}
-        onDragEnd={(e, info) => {
-          if (info.offset.x > 50) handlePrev();
-          if (info.offset.x < -50) handleNext();
-        }}
-      >
+    <AnimatePresence>
+      {isOpen && (
         <motion.div
-          key={photos[index]}
-          initial={{ x: direction * 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: -direction * 100, opacity: 0 }}
-          transition={{ duration: 0.35, ease: "easeInOut" }}
-          className="absolute inset-0 flex items-center justify-center"
+          className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 p-2 sm:p-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.35, ease: 'easeInOut' }}
         >
-          <Image
-            src={photos[index]}
-            alt={`Image ${index}`}
-            width={width}
-            height={height}
-            className="object-contain"
-            onLoadingComplete={(img) =>
-              setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight })
-            }
-            loading="eager"
-          />
-        </motion.div>
-      </motion.div>
+          {/* Click outside */}
+          <div className="absolute inset-0" onClick={onClose} />
 
-      {/* Controls */}
-      <button
-        onClick={handlePrev}
-        className="fixed top-1/2 left-2 -translate-y-1/2 text-white text-4xl sm:text-6xl p-2 rounded-full hover:text-gray-300 z-50"
-      >
-        ‹
-      </button>
-      <button
-        onClick={handleNext}
-        className="fixed top-1/2 right-2 -translate-y-1/2 text-white text-4xl sm:text-6xl p-2 rounded-full hover:text-gray-300 z-50"
-      >
-        ›
-      </button>
-      <button
-        onClick={onClose}
-        className="fixed top-4 right-4 text-white text-3xl sm:text-4xl p-2 rounded-full hover:text-gray-300 z-50"
-      >
-        ✕
-      </button>
-    </div>
+          {/* Image container */}
+          <motion.div
+            animate={{ x: 0, opacity: 1 }}
+            initial={false}
+            transition={{
+              type: 'tween',
+              ease: 'easeInOut',
+              duration: 0.35,
+            }}
+            className="relative flex items-center justify-center"
+            style={{ width, height }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.1}
+            onDragEnd={(e, info) => {
+              if (info.offset.x > 50) handlePrev();
+              if (info.offset.x < -50) handleNext();
+            }}
+          >
+            <motion.div
+              key={photos[index]}
+              initial={{ x: direction * 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <Image
+                src={photos[index]}
+                alt={`Image ${index}`}
+                width={width}
+                height={height}
+                className="object-contain"
+                onLoadingComplete={(img) =>
+                  setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight })
+                }
+                loading="eager"
+              />
+            </motion.div>
+          </motion.div>
+
+          {/* Controls */}
+          <button
+            onClick={handlePrev}
+            className="fixed top-1/2 left-2 -translate-y-1/2 text-white text-4xl sm:text-6xl p-2 rounded-full hover:text-gray-300 z-50"
+          >
+            ‹
+          </button>
+          <button
+            onClick={handleNext}
+            className="fixed top-1/2 right-2 -translate-y-1/2 text-white text-4xl sm:text-6xl p-2 rounded-full hover:text-gray-300 z-50"
+          >
+            ›
+          </button>
+          <button
+            onClick={onClose}
+            className="fixed top-4 right-4 text-white text-3xl sm:text-4xl p-2 rounded-full hover:text-gray-300 z-50"
+          >
+            ✕
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
